@@ -1,0 +1,35 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "dd6d2e1d-415a-4aae-9b9e-7302682725ca++4386",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "dd6d2e1d-415a-4aae-9b9e-7302682725ca++1387" : {
+
+    },
+    "dd6d2e1d-415a-4aae-9b9e-7302682725ca++4386" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "dd6d2e1d-415a-4aae-9b9e-7302682725ca++1387" : 0,
+    "dd6d2e1d-415a-4aae-9b9e-7302682725ca++4386" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "FDD1EB47-DC38-42A1-BC16-AEC74949950E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "dd6d2e1d-415a-4aae-9b9e-7302682725ca++1387" : "BrandNew\/Layer\/trunk\/third_party\/oRTP\/",
+    "dd6d2e1d-415a-4aae-9b9e-7302682725ca++4386" : "BrandNew"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ECSDKDemo_OC",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "IOS\/trunk\/ECSDKDemo_OC\/ECSDKDemo_OC.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/192.168.178.11\/iosdb",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "dd6d2e1d-415a-4aae-9b9e-7302682725ca++1387"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/118.194.240.26\/iosdb",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "dd6d2e1d-415a-4aae-9b9e-7302682725ca++4386"
+    }
+  ]
+}

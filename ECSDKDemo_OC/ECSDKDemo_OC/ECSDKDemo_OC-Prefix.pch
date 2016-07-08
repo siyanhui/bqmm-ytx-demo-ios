@@ -1,0 +1,17 @@
+//
+//  ECSDKDemo_OC.pch
+//  ECSDKDemo_OC
+//
+//  Created by jiazy on 14/12/6.
+//  Copyright (c) 2014年 ronglian. All rights reserved.
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import "MBProgressHUD.h"
+    #import "DeviceDelegateHelper.h"
+    #import "ECDeviceHeaders.h"
+    #import "DemoGlobalClass.h"
+    #import "CommonTools.h"
+#endif

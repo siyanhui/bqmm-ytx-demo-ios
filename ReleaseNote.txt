@@ -1,0 +1,18 @@
+Release Version 5.2.1r
+
+sdk功能增加：
+1.转让群主权限，设置管理员和成员角色权限（注：群主权限最高，管理员次之，成员最低，同级别权限之间不具备操作权限）。接口如下：
+- (void)setGroupMemberRole:(NSString*)groupId member:(NSString*)memberId role:(ECMemberRole)role completion:(void(^)(ECError *error,NSString *groupId,NSString *memberId))completion;
+2.邀请成员加入音频会议、视频会议增加接口
+- (void)inviteMembersJoinMultiMediaMeeting:(NSString *)meetingNumber andIsLoandingCall:(BOOL)isLoadingCall andMembers:(NSArray *)members andDisplayNumber:(NSString*)displaynumber andSDKUserData:(NSString*)sdkUserData andServiceUserData:(NSString*)serviceUserData completion:(void (^)(ECError *error ,NSString * meetingNumber))completion;
+3.增加发送链接消息（ECPreviewMessageBody）
+4.增加用户发送和接收状态消息（ECUserStateMessageBody）。
+5.群组增加@消息。
+
+demo增加功能：
+1.消息增加可转发到云通讯平台的用户、群组和讨论组中
+2.图片和链接消息可分享到微信
+3.增加推送消息自定义铃音，文件名称必须为：pushring.caf
+
+
+
