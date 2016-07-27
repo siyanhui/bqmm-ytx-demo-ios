@@ -293,31 +293,31 @@ span { display: inline-block; }
 </head>
 
 <body class="f9 b9">
-<h1>说明：</h1>
-  <ul>
-  	<li>
-  		<p>
-  			本Demo使用的是
-  			<a href="http://www.yuntongxun.com/doc/ready/demo/1_4_1_1.html">版本号为v5.2.1r 云通讯官方IMDemo</a>
-  		</p>
-  	</li>
-  	<li>
-  		<p>
-  			本Demo在环信官方Demo的基础上集成了BQMM,在修改的地方我们都加上了“BQMM集成"的注释，可在项目中全局搜索查看
-  		</p>
-  	</li>
-  	<li>
-  		<p>
-  			我们提供了集成之后的Demo与官方Demo的Diff文档,供大家查看 (绿色为新增的代码，红色为删除的代码)
-  		</p>
-  	</li>
-  </ul>
+  <body class="f9 b9">
+  <h1>说明：</h1>
+    <ul>
+    	<li>
+    		<p>
+    			本Demo使用的是
+    			<a href="http://www.yuntongxun.com/doc/ready/demo/1_4_1_1.html">版本号为v5.2.1r 云通讯官方IMDemo</a>
+    		</p>
+    	</li>
+    	<li>
+    		<p>
+    			本Demo在云通讯官方Demo的基础上集成了BQMM1.7,在修改的地方我们都加上了“BQMM集成"的注释，可在项目中全局搜索查看
+    		</p>
+    	</li>
+    	<li>
+    		<p>
+    			我们提供了集成之后的Demo与官方Demo的Diff文档,供大家查看 (绿色为新增的代码，红色为删除的代码)
+    		</p>
+    	</li>
+    </ul>
 
 
-  <h1>
-  	集成之后的Demo与官方Demo的Diff文档：
-  </h1>
-
+    <h1>
+    	集成之后的Demo与官方Demo的Diff文档：
+    </h1>
 <pre>
 <span class="bold">diff --git a/ECSDKDemo_OC/ECSDKDemo_OC/AppDelegate.mm b/ECSDKDemo_OC/ECSDKDemo_OC/AppDelegate.mm</span>
 <span class="bold">index 210213d..94fbf10 100755</span>
@@ -335,7 +335,7 @@ span { display: inline-block; }
 <span class="f6">@@ -106,8 +108,16 @@</span> - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(
         rootView = [[UINavigationController alloc] initWithRootViewController:_loginView];
     }
-    
+
     <span class="f2">//BQMM集成  初始化BQMM</span>
 <span class="f2">    NSString *appId = @&quot;yourAppID&quot;;</span>
 <span class="f2">    NSString *appSecret = @&quot;yourSecret&quot;;</span>
@@ -344,10 +344,10 @@ span { display: inline-block; }
 <span class="f2">    [MMEmotionCentre defaultCentre].sdkMode = MMSDKModeIM;</span>
     [<span class="f1">UIColor whiteColor</span><span class="f2">MMEmotionCentre defaultCentre</span>]<span class="f1">}</span><span class="f2">.sdkLanguage = MMLanguageChinese;</span>
 <span class="f2">    [MMEmotionCentre defaultCentre</span>]<span class="f2">.sdkRegion = MMRegionOther</span>;
-    
+
     <span class="f2">[[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];</span>
     self.window.rootViewController = rootView;
-    
+
     [self.window makeKeyAndVisible];
 <span class="f6">@@ -227,6 +237,8 @@</span> - (void)applicationDidEnterBackground:(UIApplication *)application {
 
@@ -399,7 +399,7 @@ index 4dce7e4..2f75218 100755</span>
 #define kCGImageAlphaPremultipliedLast  (kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast)
 #else
 <span class="f6">@@ -97,12 +100,12 @@</span> -(void)getImageWithwidth:(CGFloat)width andgetImageWithhight:(CGFloat)hight {
-    
+
     ECMessage *message = self.displayMessage;
     ECImageMessageBody *mediaBody = (ECImageMessageBody*)message.messageBody;
 <span class="f2">//</span>    if ([@&quot;gif&quot; isEqualToString:mediaBody.localPath.pathExtension.lowercaseString]) {
@@ -408,15 +408,15 @@ index 4dce7e4..2f75218 100755</span>
 <span class="f2">//</span>    } else {
 <span class="f2">//</span>        _gifFlagImage.hidden = YES;
 <span class="f2">//</span>    }
-    
+
     [super updateMessageSendStatus:self.displayMessage.messageState];
 }
 <span class="f6">@@ -114,6 +117,38 @@</span> -(void)layoutSubviews {
     ECMessage *message = self.displayMessage;
     ECImageMessageBody *mediaBody = (ECImageMessageBody*)message.messageBody;
-    
-    
-    
+
+
+
     <span class="f2">//解析消息扩展</span>
 <span class="f2">    NSString *extString = message.userData;</span>
 <span class="f2">    NSDictionary *extDic = nil;</span>
@@ -446,10 +446,10 @@ index 4dce7e4..2f75218 100755</span>
 <span class="f2">        }];</span>
 <span class="f2">        return;</span>
 <span class="f2">    }</span>
-    
+
     UIImage* defaultimg = [UIImage imageNamed:@&quot;chat_placeholder_image&quot;];
     _displayImage.image = defaultimg;
-    
+
 <span class="bold">diff --git a/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/Chat/ChatView/ChatViewCell/ChatViewTextCell.h b/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/Chat/ChatView/ChatViewCell/ChatViewTextCell.h</span>
 <span class="bold">index f8f9f79..9aae53c 100755</span>
 <span class="bold">--- a/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/Chat/ChatView/ChatViewCell/ChatViewTextCell.h</span>
@@ -463,7 +463,7 @@ extern NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent;
 
 @end
 <span class="bold">diff --git a/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/Chat/ChatView/ChatViewCell/ChatViewTextCell.m b/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/Chat/ChatView/ChatViewCell/ChatViewTextCell.m</span>
-<span class="bold">index 3c4b745..056f053 100755</span>
+<span class="bold">index 3c4b745..0ab31c9 100755</span>
 <span class="bold">--- a/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/Chat/ChatView/ChatViewCell/ChatViewTextCell.m</span>
 <span class="bold">+++ b/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/Chat/ChatView/ChatViewCell/ChatViewTextCell.m</span>
 <span class="f6">@@ -8,11 +8,16 @@</span>
@@ -472,7 +472,7 @@ extern NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent;
 
 <span class="f2">//BQMM集成</span>
 <span class="f2">#import &quot;MMTextView.h&quot;</span>
-<span class="f2">#import &quot;MMTextParser+ExtData.h&quot;</span>
+<span class="f2">#import &quot;MMTextParser.h&quot;</span>
 
 
 NSString *const KResponderCustomChatViewTextCellBubbleViewEvent = @&quot;KResponderCustomChatViewTextCellBubbleViewEvent&quot;;
@@ -494,12 +494,12 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
     if (self = [super initWithIsSender:isSender reuseIdentifier:reuseIdentifier]) {
         if (isSender) {
             _label = [[UILabel alloc] initWithFrame:CGRectMake(5.0f, 2.0f, self.bubbleView.frame.size.width-15.0f, self.bubbleView.frame.size.height-6.0f)];
-            
+
             <span class="f2">_textView = [[MMTextView alloc] initWithFrame:CGRectMake(5.0f, 2.0f, self.bubbleView.frame.size.width-15.0f, self.bubbleView.frame.size.height-6.0f)];</span>
         }
         else{
             _label = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 2.0f, self.bubbleView.frame.size.width-15.0f, self.bubbleView.frame.size.height-6.0f)];
-            
+
             <span class="f2">_textView = [[MMTextView alloc] initWithFrame:CGRectMake(10.0f, 2.0f, self.bubbleView.frame.size.width-15.0f, self.bubbleView.frame.size.height-6.0f)];</span>
         }
         self.detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
@@ -508,7 +508,7 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
         _label.lineBreakMode = NSLineBreakByCharWrapping;
         _label.backgroundColor = [UIColor clearColor];
         [self.bubbleView addSubview:_label];
-        
+
         <span class="f2">//BQMM集成</span>
 <span class="f2">        _label.hidden = true;</span>
 <span class="f2">        </span>
@@ -561,7 +561,7 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 
 <span class="f2">//BQMM集成</span>
 -(void)layoutSubviews{
-    
+
     [super layoutSubviews];
 <span class="f6">@@ -227,40 +275,88 @@</span> -(void)layoutSubviews{
     if (body.text==nil) {
@@ -582,9 +582,9 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 <span class="f2">    }else{</span>
 <span class="f2">        contentSize = [MMTextParser sizeForTextWithText:body.text font:LabelFont maximumTextWidth:BubbleMaxSize.width];</span>
 <span class="f2">        </span>
-<span class="f2">        _textView.mmText = body.text;</span>
+<span class="f2">//        _textView.mmText = body.text;   TODO </span>
 <span class="f2">    }</span>
-    
+
     <span class="f2">if (contentSize.height&lt;40.0f) {</span>
 <span class="f2">        contentSize.height=40.0f;</span>
 <span class="f2">    }</span>
@@ -603,10 +603,10 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 <span class="f2">//    </span>
 <span class="f2">//</span>    [_label setAttributedText:attributedString];
 <span class="f2">//</span>    [self highlightLinksWithIndex:NSNotFound];
-    
+
 //    _label.text = body.text;
-    
-    
+
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored &quot;-Wdeprecated-declarations&quot;
 <span class="f2">//</span>    CGSize bubbleSize = [body.text sizeWithFont:LabelFont constrainedToSize:BubbleMaxSize lineBreakMode:NSLineBreakByCharWrapping];
@@ -614,23 +614,23 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 <span class="f2">//</span>    if (bubbleSize.height&lt;40.0f) {
 <span class="f2">//</span>        bubbleSize.height=40.0f;
 <span class="f2">//</span>    }
-    
+
     if (self.isSender) {
 <span class="f2">//</span>        _label.frame = CGRectMake(9.0f, 2.0f, bubbleSize.width, bubbleSize.height);
 <span class="f2">//</span>        self.bubbleView.frame = CGRectMake(self.portraitImg.frame.origin.x-bubbleSize.width-25.0f-10.0f, self.portraitImg.frame.origin.y, bubbleSize.width+25.0f, bubbleSize.height+6.0f);
-        
+
         <span class="f2">self.bubbleView.frame = CGRectMake(self.portraitImg.frame.origin.x-contentSize.width-25.0f-10.0f, self.portraitImg.frame.origin.y, contentSize.width+25.0f, contentSize.height+6.0f);
         </span>
 <span class="f2">        _textView.frame = CGRectMake(9.0f, (self.bubbleView.frame.size.height - contentSize.height) / 2, contentSize.width, contentSize.height);</span>
     } else {
 <span class="f2">//</span>        _label.frame = CGRectMake(16.0f, 2.0f, bubbleSize.width, bubbleSize.height);
 <span class="f2">//</span>        self.bubbleView.frame = CGRectMake(self.portraitImg.frame.origin.x+self.portraitImg.frame.size.width+10.0f, self.portraitImg.frame.origin.y, bubbleSize.width+25.0f, bubbleSize.height+6.0f);
-        
+
         <span class="f2">self.bubbleView.frame = CGRectMake(self.portraitImg.frame.origin.x+self.portraitImg.frame.size.width+10.0f, self.portraitImg.frame.origin.y, contentSize.width+25.0f, contentSize.height+6.0f);
         _textView.frame = CGRectMake(16.0f, (self.bubbleView.frame.size.height - contentSize.height) / 2, contentSize.width, contentSize.height);</span>
 
     }
-    
+
     [super updateMessageSendStatus:self.displayMessage.messageState];
 }
 
@@ -653,7 +653,7 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 
 @end
 <span class="bold">diff --git a/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/Chat/ChatView/ChatViewController.m b/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/Chat/ChatView/ChatViewController.m</span>
-<span class="bold">index 0e11376..36411c9 100755</span>
+<span class="bold">index 0e11376..1c71727 100755</span>
 <span class="bold">--- a/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/Chat/ChatView/ChatViewController.m</span>
 <span class="bold">+++ b/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/Chat/ChatView/ChatViewController.m</span>
 <span class="f6">@@ -57,6 +57,10 @@</span>
@@ -661,7 +661,7 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 #import &lt;ShareSDK/ShareSDK.h&gt;
 
 <span class="f2">//BQMM集成</span>
-<span class="f2">#import &quot;MMTextParser+ExtData.h&quot;</span>
+<span class="f2">#import &quot;MMTextParser.h&quot;</span>
 
 
 #define ToolbarInputViewHeight 43.0f
@@ -681,7 +681,7 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
     UIButton *_moreBtn;
 <span class="f2">//</span>    CustomEmojiView *_emojiView;    <span class="f2">BQMM集成 去掉原demo的表情键盘</span>
     NSString *_GroupMemberNickName;
-    
+
     BOOL isReadDeleteMessage;
 <span class="f6">@@ -269,6 +273,9 @@</span> -(void)viewDidLoad {
     char myBuffer[4] = {'\xe2','\x80','\x85',0};
@@ -697,14 +697,14 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
     if (_isStartRecord) {
         _footView.hidden = NO;
     }
-    
+
     <span class="f2">//BQMM集成</span>
 <span class="f2">    [MMEmotionCentre defaultCentre].delegate = self;</span>
 }
 
 //view出现后触发
 <span class="f6">@@ -402,23 +412,23 @@</span> -(void)viewDidAppear:(BOOL)animated {
-    
+
     extern NSString *const Notification_ChangeMainDisplay;
     [[NSNotificationCenter defaultCenter] postNotificationName:Notification_ChangeMainDisplay object:@0];
     <span class="f2">//BQMM集成   去掉原demo的表情键盘</span>
@@ -724,14 +724,14 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 <span class="f2">//</span>    if (!isHas) {
 <span class="f2">//</span>        [self.view addSubview:_emojiView];
 <span class="f2">//</span>    }
-    
+
     [[DeviceDBHelper sharedInstance] markMessagesAsReadOfSession:self.sessionId];
 }
 <span class="f6">@@ -439,6 +449,9 @@</span> -(void)viewWillDisappear:(BOOL)animated {
-    
+
     [super viewWillDisappear:animated];
     _footView.hidden = YES;
-    
+
     <span class="f2">//BQMM集成</span>
 <span class="f2">    [MMEmotionCentre defaultCentre].delegate = nil;</span>
 }
@@ -742,16 +742,16 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
     CGFloat duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     CGFloat frameY = self.view.frame.size.height-ToolbarInputViewHeight;
     CGRect <span class="f1">frame</span><span class="f2">containerViewFrame</span> = _containerView.frame;
-    
+
     if (beginFrame.origin.y == [[UIScreen mainScreen] bounds].size.height) {
         //显示键盘
 <span class="f2">//</span>        toolbarDisplay = ToolbarDisplay_None;
         _isDisplayKeyborad = YES;
-        
+
         //只显示输入view
         frameY = endFrame.origin.y-<span class="f1">_containerView.frame</span><span class="f2">containerViewFrame</span>.size.height+ToolbarMoreViewHeight;
     } else if (endFrame.origin.y == [[UIScreen mainScreen] bounds].size.height) {
-        
+
         //隐藏键盘
         _isDisplayKeyborad = NO;
         <span class="f2">return;</span>
@@ -786,7 +786,7 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
     } else {
         frameY = endFrame.origin.y<span class="f1">-frame</span><span class="f2">-containerViewFrame</span>.size.height+ToolbarMoreViewHeight;
     }
-    
+
     frameY -= 64.0f;
 <span class="f6">@@ -701,17 +698,22 @@</span> - (void)keyboardWillChangeFrame:(NSNotification *)notification {
 }
@@ -801,7 +801,7 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 //    _footView.hidden = YES;
     <span class="f2">[self endEditing];</span>
     if (_isDisplayKeyborad) {
-<span class="f1">[self.view endEditing:YES];</span>        
+<span class="f1">[self.view endEditing:YES];</span>
     } else {
         [self toolbarDisplayChangedToFrameY:viewHeight-_containerView.frame.size.height+ToolbarMoreViewHeight andDuration:0.25];
         <span class="f2">[_switchVoiceBtn setImage:[UIImage imageNamed:@&quot;voice_icon&quot;] forState:UIControlStateNormal];</span>
@@ -836,9 +836,9 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
         case MessageBodyType_Video:
         case MessageBodyType_Image:
 <span class="f6">@@ -861,15 +877,34 @@</span> - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(N
-    
+
     NSInteger fileType = message.messageBody.messageBodyType;
-    
+
     <span class="f2">//BQMM集成</span>
 <span class="f2">    //解析消息扩展</span>
 <span class="f2">    NSString *extString = message.userData;</span>
@@ -851,13 +851,13 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 <span class="f2">    if (extDic != nil) {</span>
 <span class="f2">        msgType = extDic[@&quot;txt_msgType&quot;];</span>
 <span class="f2">    }</span>
-    
+
     NSString *cellidentifier = [NSString stringWithFormat:@&quot;%@_%@_%<span class="f1">d</span><span class="f2">d_%@</span>&quot;, isSender?@&quot;issender&quot;:@&quot;isreceiver&quot;,NSStringFromClass([message.messageBody class]),(int)fileType<span class="f2">, msgType</span>];
-    
+
     ChatViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellidentifier];
     if (cell == nil) {
         switch (message.messageBody.messageBodyType) {
-                
+
             case MessageBodyType_Text:   <span class="f2">//BQMM集成</span>
 <span class="f2">            {</span>
 <span class="f2">                if (extDic != nil &amp;&amp; [extDic[@&quot;txt_msgType&quot;] isEqualToString: @&quot;facetype&quot;]) { //大表情消息</span>
@@ -923,15 +923,15 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 <span class="f2">    if (extDic != nil &amp;&amp; [extDic[@&quot;txt_msgType&quot;] isEqualToString: @&quot;facetype&quot;]) { //大表情消息</span>
 <span class="f2">        UIViewController *emojiController = [[MMEmotionCentre defaultCentre] controllerForEmotionCode:extDic[@&quot;msg_data&quot;][0][0]];</span>
 <span class="f2">        [self.navigationController pushViewController:emojiController animated:YES];</span>
-        
+
         <span class="f2">return;</span>
 <span class="f2">    }</span>
-    
+
     if (message.messageBody.messageBodyType &gt;= MessageBodyType_Voice) {
         ECImageMessageBody *mediaBody = (ECImageMessageBody*)message.messageBody;
-        
+
 <span class="f6">@@ -1440,9 +1504,10 @@</span> -(void)createToolBarView {
-    
+
     //发送语音和变声
     [self createVoiceView];
     <span class="f2">_recordView.hidden = YES;</span>
@@ -942,7 +942,7 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 
 -(void)createVoiceView
 <span class="f6">@@ -1743,19 +1808,19 @@</span> -(void)toolbarDisplayChangedToFrameY:(CGFloat)frame_y andDuration:(NSTimeInterva
-    
+
     __weak __typeof(self)weakSelf = self;
     if (toolbarDisplay == ToolbarDisplay_None) {
 <span class="f2">//</span>        [_emojiBtn setImage:[UIImage imageNamed:@&quot;facial_expression_icon&quot;] forState:UIControlStateNormal];
@@ -951,14 +951,14 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 <span class="f2">//</span>        frame.origin.y = self.view.frame.size.height;
 <span class="f2">//</span>        _emojiView.frame = frame;
     }
-    
+
     //如果只显示的toolbar是输入框，表情页消失
 <span class="f2">//</span>    if (frame_y == self.view.frame.size.height-_containerView.frame.size.height+ToolbarMoreViewHeight) {
 <span class="f2">//</span>        CGRect frame = _emojiView.frame;
 <span class="f2">//</span>        frame.origin.y = self.view.frame.size.height;
 <span class="f2">//</span>        _emojiView.frame = frame;
 <span class="f2">//</span>    }
-    
+
     void(^animations)() = ^{
         __strong __typeof(weakSelf)strongSelf = weakSelf;
 <span class="f6">@@ -1784,96 +1849,92 @@</span> -(void)toolbarDisplayChangedToFrameY:(CGFloat)frame_y andDuration:(NSTimeInterva
@@ -973,9 +973,9 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 -(void)switchToolbarDisplay:(id)sender {
 <span class="f1">    </span>
     _footView.hidden = _isStartRecord;
-    
+
     UIButton*button = (UIButton*)sender;
-    
+
     <span class="f1">//如果上次显示内容为录音，更改显示</span>
 <span class="f1">    if (toolbarDisplay == ToolbarDisplay_Record) {</span>
 <span class="f1">        _inputView</span><span class="f2">_moreView</span>.hidden = <span class="f1">NO</span><span class="f2">YES</span>;
@@ -986,7 +986,7 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 <span class="f1">        CGRect frame = _emojiView.frame;</span>
 <span class="f1">        frame.origin</span><span class="f2">_recordView</span>.<span class="f1">y</span><span class="f2">hidden</span> = <span class="f1">self.view.frame.size.height</span><span class="f2">YES</span>;
     <span class="f1">_emojiView.frame</span><span class="f2">_changeVoiceView.hidden</span> = <span class="f1">frame</span><span class="f2">YES</span>;<span class="f1">}</span>
-    
+
 <span class="f1">__weak __typeof(self)weakSelf = self;</span>
 <span class="f1">    //如果两次按钮的相同触发输入文本</span>    if (<span class="f2">toolbarDisplay ==</span> button.tag<span class="f1">== toolbarDisplay</span>) {
         toolbarDisplay = ToolbarDisplay_None;
@@ -1124,113 +1124,90 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 -(void)sendTextMessage {
 
     userInputState = UserState_None;
-<span class="f6">@@ -2192,31 +2254,83 @@</span> -(void)sendTextMessage {
-    
+<span class="f6">@@ -2192,17 +2254,30 @@</span> -(void)sendTextMessage {
+
     NSMutableCharacterSet *set = [NSMutableCharacterSet whitespaceCharacterSet];
     [set removeCharactersInString:_deleteAtStr];
-    NSString * textString = [_inputTextView.<span class="f1">text</span><span class="f2">internalTextView.mmText</span> stringByTrimmingCharactersInSet:set];
-    if (textString.length == 0) {
+    NSString *<span class="f1">textString</span><span class="f2">sendStr = _inputTextView.internalTextView.characterMMText;</span>
+<span class="f2">    NSArray *textImgArray</span> =<span class="f1">[</span> _inputTextView.<span class="f1">text stringByTrimmingCharactersInSet</span><span class="f2">internalTextView.textImgArray;</span>
+<span class="f2">    NSDictionary *mmExt = @{@&quot;txt_msgType&quot;</span>:<span class="f1">set</span><span class="f2">@&quot;emojitype&quot;,</span>
+<span class="f2">                            @&quot;msg_data&quot;:[MMTextParser extDataWithTextImageArray:textImgArray</span>]<span class="f2">};</span>;
+    if (<span class="f1">textString</span><span class="f2">sendStr</span>.length == 0) {
         UIAlertView * alert = [[UIAlertView alloc]initWithTitle:nil message:@&quot;不能发送空白消息&quot; delegate:nil cancelButtonTitle:@&quot;确定&quot; otherButtonTitles:nil];
         [alert show];
         return;
     }
-<span class="f1">ECMessage* message;</span>
-<span class="f1">    if (</span>    
-    [<span class="f1">self.sessionId hasPrefix</span><span class="f2">MMTextParser localParseMMText</span>:<span class="f1">@&quot;g&quot;] &amp;&amp; [</span>textString <span class="f1">myContainsString</span><span class="f2">completionHandler</span>:<span class="f1">_deleteAtStr]</span><span class="f2">^(NSArray *textImgArray</span>) {
-        <span class="f1">NSMutableArray</span><span class="f2">NSDictionary</span> *<span class="f1">personArray</span><span class="f2">mmExt</span> = <span class="f1">[DemoGlobalClass sharedInstance].AtPersonArray</span><span class="f2">nil</span>;
-        <span class="f1">NSArray</span><span class="f2">NSString</span> *<span class="f1">array</span><span class="f2">sendStr</span> =<span class="f1">[textString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:</span> @&quot;<span class="f1">@%@</span>&quot;<span class="f1">,_deleteAtStr]]]</span>;
-        for (<span class="f1">NSString *str</span><span class="f2">id obj</span> in <span class="f1">array) {</span>
-<span class="f1">            NSArray *bookArray = [DemoGlobalClass sharedInstance].groupMemberArray;</span>
-<span class="f1">            for (AddressBook *book in bookArray</span><span class="f2">textImgArray</span>) {
-            if ([<span class="f1">str isEqualToString</span><span class="f2">obj isKindOfClass</span>:<span class="f1">book.name</span><span class="f2">[MMEmoji class]</span>]) {
-                <span class="f1">[personArray addObject:book.phones.allValues.firstObject];</span>
-<span class="f1">                    NSSet</span><span class="f2">MMEmoji</span> *<span class="f1">set</span><span class="f2">emoji</span> = <span class="f1">[NSSet setWithArray:personArray]</span><span class="f2">(MMEmoji*)obj</span>;
-                <span class="f1">personArray</span><span class="f2">if (!mmExt) {</span>
-<span class="f2">                    mmExt</span> = <span class="f2">@{@&quot;txt_msgType&quot;:@&quot;emojitype&quot;,</span>
-<span class="f2">                              @&quot;msg_data&quot;:</span>[<span class="f1">NSMutableArray arrayWithObject</span><span class="f2">MMTextParser extDataWithTextImageArray</span>:<span class="f1">set.allObjects</span><span class="f2">textImgArray</span>]<span class="f2">}</span>;
-                    
+
+
+    <span class="f2">NSString *extString = nil;</span>
+<span class="f2">    if (mmExt) {</span>
+<span class="f2">        NSError *parseError = nil;</span>
+<span class="f2">        NSData  *extData = [NSJSONSerialization dataWithJSONObject:mmExt</span>
+<span class="f2">                                                           options:NSJSONWritingPrettyPrinted error:&amp;parseError];</span>
+<span class="f2">        extString = [[NSString alloc] initWithData:extData encoding:NSUTF8StringEncoding];</span>
+<span class="f2">        extString = [extString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];</span>
+<span class="f2">    }</span>
+
+    ECMessage* message;
+    if ([self.sessionId hasPrefix:@&quot;g&quot;] &amp;&amp; [<span class="f1">textString</span><span class="f2">sendStr</span> myContainsString:_deleteAtStr]) {
+        NSMutableArray *personArray = [DemoGlobalClass sharedInstance].AtPersonArray;
+        NSArray *array = [<span class="f1">textString</span><span class="f2">sendStr</span> componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@&quot;@%@&quot;,_deleteAtStr]]];
+        for (NSString *str in array) {
+            NSArray *bookArray = [DemoGlobalClass sharedInstance].groupMemberArray;
+            for (AddressBook *book in bookArray) {
+<span class="f6">@@ -2213,15 +2288,37 @@</span> -(void)sendTextMessage {
                 }
-                <span class="f2">sendStr = [sendStr stringByAppendingString:[NSString stringWithFormat:@&quot;[%@]&quot;, emoji.emojiName]];</span>
-<span class="f2">            }</span>
-<span class="f2">            else if ([obj isKindOfClass:[NSString class]]) {</span>
-<span class="f2">                sendStr = [sendStr stringByAppendingString:obj];</span>
             }
         }
-        
-        <span class="f2">NSString *extString = nil;</span>
-<span class="f2">        if (mmExt) {</span>
-<span class="f2">            NSError *parseError = nil;</span>
-<span class="f2">            NSData  *extData = [NSJSONSerialization dataWithJSONObject:mmExt</span>
-<span class="f2">                                                               options:NSJSONWritingPrettyPrinted error:&amp;parseError];</span>
-<span class="f2">            extString = [[NSString alloc] initWithData:extData encoding:NSUTF8StringEncoding];</span>
-<span class="f2">            extString = [extString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];</span>
-<span class="f2">        }</span>
-<span class="f2">        </span>
-<span class="f2">        ECMessage* message;</span>
-<span class="f2">        if ([self.sessionId hasPrefix:@&quot;g&quot;] &amp;&amp; [sendStr myContainsString:_deleteAtStr]) {</span>
-<span class="f2">            NSMutableArray *personArray = [DemoGlobalClass sharedInstance].AtPersonArray;</span>
-<span class="f2">            NSArray *array = [sendStr componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@&quot;@%@&quot;,_deleteAtStr]]];</span>
-<span class="f2">            for (NSString *str in array) {</span>
-<span class="f2">                NSArray *bookArray = [DemoGlobalClass sharedInstance].groupMemberArray;</span>
-<span class="f2">                for (AddressBook *book in bookArray) {</span>
-<span class="f2">                    if ([str isEqualToString:book.name]) {</span>
-<span class="f2">                        [personArray addObject:book.phones.allValues.firstObject];</span>
-<span class="f2">                        NSSet *set = [NSSet setWithArray:personArray];</span>
-<span class="f2">                        personArray = [NSMutableArray arrayWithObject:set.allObjects];</span>
-<span class="f2">                    }</span>
-<span class="f2">                }</span>
-<span class="f2">            }</span>
-            message = [[DeviceChatHelper sharedInstance] sendTextMessage:<span class="f1">textString</span><span class="f2">sendStr</span> to:self.sessionId withUserData:<span class="f1">nil</span><span class="f2">extString</span> atArray:personArray];
-        } else {
-            message = [[DeviceChatHelper sharedInstance] sendTextMessage:<span class="f1">textString</span><span class="f2">sendStr</span> to:self.sessionId <span class="f2">withUserData:extString atArray:nil];</span>
-<span class="f2">        }</span>
-<span class="f2">        [[DemoGlobalClass sharedInstance].AtPersonArray removeAllObjects];</span>
-<span class="f2">        [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:message];</span>
-<span class="f2">    }];</span>
-<span class="f2">    </span>
-<span class="f2">    </span>
-<span class="f2">}</span>
+        message = [[DeviceChatHelper sharedInstance] sendTextMessage:<span class="f1">textString</span><span class="f2">sendStr</span> to:self.sessionId withUserData:<span class="f1">nil</span><span class="f2">extString</span> atArray:personArray];
+    } else {
+        message = [[DeviceChatHelper sharedInstance] sendTextMessage:<span class="f1">textString</span><span class="f2">sendStr</span> to:self.sessionId <span class="f2">withUserData:extString atArray:nil</span>];
+    }
+    [[DemoGlobalClass sharedInstance].AtPersonArray removeAllObjects];
+    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:message];
+}
 
-<span class="f2">/**</span>
-<span class="f2"> *@brief 发送大表情消息</span>
+/**
+ <span class="f2">*@brief 发送大表情消息</span>
 <span class="f2"> */</span>
 <span class="f2">-(void)sendMMFace:(MMEmoji *)emoji {</span>
 <span class="f2">    NSDictionary *mmExt = @{@&quot;txt_msgType&quot;:@&quot;facetype&quot;,</span>
-<span class="f2">                            @&quot;msg_data&quot;:[MMTextParser extDataWithEmojiCode:emoji.emojiCode]};</span>
+<span class="f2">                            @&quot;msg_data&quot;:@[@[emoji.emojiCode, [NSString stringWithFormat:@&quot;%d&quot;, emoji.isEmoji ? 1 : 2]]]};</span>
 <span class="f2">    NSString *extString = nil;</span>
 <span class="f2">    if (mmExt) {</span>
 <span class="f2">        NSError *parseError = nil;</span>
 <span class="f2">        NSData  *extData = [NSJSONSerialization dataWithJSONObject:mmExt</span>
 <span class="f2">                                                           options:NSJSONWritingPrettyPrinted error:&amp;parseError];</span>
 <span class="f2">        extString = [[NSString alloc] initWithData:extData encoding:NSUTF8StringEncoding];</span>
-<span class="f2">        extString = [extString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]</span>];
-    }
-    
-    <span class="f2">NSString *sendStr = [NSString stringWithFormat:@&quot;[%@]&quot;, emoji.emojiName];</span>
+<span class="f2">        extString = [extString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];</span>
+<span class="f2">    }</span>
+<span class="f2">    </span>
+<span class="f2">    NSString *sendStr = [NSString stringWithFormat:@&quot;[%@]&quot;, emoji.emojiName];</span>
 <span class="f2">    ECMessage* message;</span>
 <span class="f2">    message = [[DeviceChatHelper sharedInstance] sendTextMessage:sendStr to:self.sessionId withUserData:extString atArray:nil];</span>
-    [[DemoGlobalClass sharedInstance].AtPersonArray removeAllObjects];
-    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:message];
-}
-<span class="f6">@@ -2672,6 +2786,17 @@</span> - (void)growingTextViewDidChangeSelection:(HPGrowingTextView *)growingTextView {
+<span class="f2">    [[DemoGlobalClass sharedInstance].AtPersonArray removeAllObjects];</span>
+<span class="f2">    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:message];</span>
+<span class="f2">}</span>
+
+<span class="f2">/**</span>
+ *@brief 发送成功，消息状态更新
+ */
+-(void)sendMessageCompletion:(NSNotification*)notification {
+<span class="f6">@@ -2672,6 +2769,13 @@</span> - (void)growingTextViewDidChangeSelection:(HPGrowingTextView *)growingTextView {
     }
 }
 
 <span class="f2">//BQMM集成</span>
 <span class="f2">- (void)growingTextViewDidChange:(HPGrowingTextView *)growingTextView {</span>
-<span class="f2">    if (growingTextView.internalTextView.markedTextRange == nil) {</span>
-<span class="f2">        NSRange selectedRange = growingTextView.internalTextView.selectedRange;</span>
-<span class="f2">        growingTextView.internalTextView.mmText = growingTextView.internalTextView.mmText;</span>
-<span class="f2">        growingTextView.internalTextView.selectedRange = selectedRange;</span>
-<span class="f2">    }</span>
+<span class="f2">    </span>
 <span class="f2">//    [self willShowInputTextViewToHeight:[self getTextViewContentH:textView]];</span>
 
 <span class="f2">}</span>
 
 #pragma mark - ECLocationViewControllerDelegate
 - (void)onSendUserLocation:(ECLocationPoint *)point {
-    
-<span class="f6">@@ -2760,4 +2885,32 @@</span> - (void) notifyUserState:(NSNotification*)notification {
+
+<span class="f6">@@ -2760,4 +2864,32 @@</span> - (void) notifyUserState:(NSNotification*)notification {
         }
     }
 }
@@ -1269,12 +1246,954 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @&quot;KRes
 <span class="bold">+++ b/ECSDKDemo_OC/ECSDKDemo_OC/Class/View/LoginAndMain/MainViewController.m</span>
 <span class="f6">@@ -41,7 +41,7 @@</span> - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     self.navigationController.navigationBar.tintColor = [UIColor <span class="f1">redColor</span><span class="f2">whiteColor</span>];  <span class="f2">//BQMM集成</span>
-    
+
     [self completionSyncHistory];
-    
+
+<span class="bold">diff --git a/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser+ExtData.h b/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser+ExtData.h</span>
+<span class="bold">deleted file mode 100644</span>
+<span class="bold">index 8bef103..0000000</span>
+<span class="bold">--- a/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser+ExtData.h</span>
+<span class="bold">+++ /dev/null</span>
+<span class="f6">@@ -1,67 +0,0 @@</span>
+<span class="f1">//</span>
+<span class="f1">//  MMTextParser+ExtData.h</span>
+<span class="f1">//  ChatDemo-UI2.0</span>
+<span class="f1">//</span>
+<span class="f1">//  Created by LiChao Jun on 16/1/23.</span>
+<span class="f1">//  Copyright © 2016 LiChao Jun. All rights reserved.</span>
+<span class="f1">//</span>
+
+<span class="f1">#import &lt;Foundation/Foundation.h&gt;</span>
+<span class="f1">#import &lt;BQMM/BQMM.h&gt;</span>
+
+<span class="f1">@interface MMTextParser (ExtData)</span>
+
+<span class="f1">/**</span>
+<span class="f1"> *  convert textImageArray to extData</span>
+<span class="f1"> *</span>
+<span class="f1"> *  @param textImageArray    a collection of MMEmoji and text</span>
+<span class="f1"> *</span>
+<span class="f1"> *  @return extData          a two dimentional array e.g. @[@[@&quot;emojiCode&quot;, @1], @[@&quot;text&quot;, @0]]</span>
+<span class="f1"> */</span>
+<span class="f1">+ (NSArray*)extDataWithTextImageArray:(NSArray*)textImageArray;</span>
+
+<span class="f1">/**</span>
+<span class="f1"> *  convert a single emojiCode to extData</span>
+<span class="f1"> *</span>
+<span class="f1"> *  @param emojiCode         the emoji code</span>
+<span class="f1"> *</span>
+<span class="f1"> *  @return extData          a two dimentional array e.g. @[@[@&quot;emojiCode&quot;, @1], @[@&quot;text&quot;, @0]]</span>
+<span class="f1"> */</span>
+<span class="f1">+ (NSArray*)extDataWithEmojiCode:(NSString*)emojiCode;</span>
+
+<span class="f1">/**</span>
+<span class="f1"> *  convert extData to mmtext</span>
+<span class="f1"> *</span>
+<span class="f1"> *  @param extData           a two dimentional array e.g. @[@[@&quot;emojiCode&quot;, @1], @[@&quot;text&quot;, @0]]</span>
+<span class="f1"> *</span>
+<span class="f1"> *  @return mmtext</span>
+<span class="f1"> */</span>
+<span class="f1">+ (NSString*)stringWithExtData:(NSArray*)extData;</span>
+
+<span class="f1">/**</span>
+<span class="f1"> *  compute the size of MMTextView, `extData` is MMTextView's content</span>
+<span class="f1"> *</span>
+<span class="f1"> *  @param extData           a two dimentional array e.g. @[@[@&quot;emojiCode&quot;, @1], @[@&quot;text&quot;, @0]]</span>
+<span class="f1"> *  @param font              the font of MMTextView</span>
+<span class="f1"> *  @param maximumTextWidth  the max width set to MMTextView</span>
+<span class="f1"> *</span>
+<span class="f1"> *  @return the size of content in MMTextView</span>
+<span class="f1"> */</span>
+<span class="f1">+ (CGSize)sizeForMMTextWithExtData:(NSArray*)extData</span>
+<span class="f1">                              font:(UIFont *)font</span>
+<span class="f1">                  maximumTextWidth:(CGFloat)maximumTextWidth;</span>
+
+<span class="f1">/**</span>
+<span class="f1"> *  compute the size of MMTextView, `text` is MMTextView's content</span>
+<span class="f1"> *</span>
+<span class="f1"> *  @param extData           a two dimentional array e.g. @[@[@&quot;emojiCode&quot;, @1], @[@&quot;text&quot;, @0]]</span>
+<span class="f1"> *  @param font              the font of MMTextView</span>
+<span class="f1"> *  @param maximumTextWidth  the max width set to MMTextView</span>
+<span class="f1"> *</span>
+<span class="f1"> *  @return the size of content in MMTextView</span>
+<span class="f1"> */</span>
+<span class="f1">+ (CGSize)sizeForTextWithText:(NSString *)text</span>
+<span class="f1">                         font:(UIFont *)font</span>
+<span class="f1">             maximumTextWidth:(CGFloat)maximumTextWidth;</span>
+
+<span class="f1">@end</span>
+<span class="bold">diff --git a/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser+ExtData.m b/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser+ExtData.m</span>
+<span class="bold">deleted file mode 100644</span>
+<span class="bold">index 1359a4e..0000000</span>
+<span class="bold">--- a/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser+ExtData.m</span>
+<span class="bold">+++ /dev/null</span>
+<span class="f6">@@ -1,108 +0,0 @@</span>
+<span class="f1">//</span>
+<span class="f1">//  MMTextParser+ExtData.m</span>
+<span class="f1">//  ChatDemo-UI2.0</span>
+<span class="f1">//</span>
+<span class="f1">//  Created by LiChao Jun on 16/1/23.</span>
+<span class="f1">//  Copyright © 2016年 LiChao Jun. All rights reserved.</span>
+<span class="f1">//</span>
+
+<span class="f1">#import &quot;MMTextParser+ExtData.h&quot;</span>
+
+<span class="f1">static MMEmoji *s_placeholderEmoji = nil;</span>
+
+<span class="f1">@implementation MMTextParser (ExtData)</span>
+
+<span class="f1">+ (NSArray*)extDataWithTextImageArray:(NSArray*)textImageArray {</span>
+<span class="f1">    NSMutableArray *ret = [NSMutableArray array];</span>
+<span class="f1">    </span>
+<span class="f1">    for (id obj in textImageArray) {</span>
+<span class="f1">        if ([obj isKindOfClass:[MMEmoji class]]) {</span>
+<span class="f1">            MMEmoji *emoji = (MMEmoji*)obj;</span>
+<span class="f1">            [ret addObject:@[emoji.emojiCode, [NSString stringWithFormat:@&quot;%d&quot;, [MMTextParser emojiTypeWithEmojiCode:emoji.emojiCode]]]];</span>
+<span class="f1">        } else if ([obj isKindOfClass:[NSString class]]) {</span>
+<span class="f1">            [ret addObject:@[obj, [NSString stringWithFormat:@&quot;%d&quot;, EmojiTypeInvalid]]];</span>
+<span class="f1">        } else {</span>
+<span class="f1">            assert(0);</span>
+<span class="f1">        }</span>
+<span class="f1">    }</span>
+<span class="f1">    </span>
+<span class="f1">    return ret;</span>
+<span class="f1">}</span>
+
+<span class="f1">+ (NSArray*)extDataWithEmojiCode:(NSString*)emojiCode {</span>
+<span class="f1">    </span>
+<span class="f1">    return @[@[emojiCode, [NSString stringWithFormat:@&quot;%d&quot;, [MMTextParser emojiTypeWithEmojiCode:emojiCode]]]];</span>
+<span class="f1">}</span>
+
+<span class="f1">+ (NSString*)stringWithExtData:(NSArray*)extData {</span>
+<span class="f1">    NSString *ret = @&quot;&quot;;</span>
+<span class="f1">    for (NSArray *obj in extData) {</span>
+<span class="f1">        NSString *str = obj[0];</span>
+<span class="f1">        BOOL isEmojiCode = [obj[1] boolValue];</span>
+<span class="f1">        if (isEmojiCode) {</span>
+<span class="f1">            ret = [ret stringByAppendingString:[NSString stringWithFormat:@&quot;[%@]&quot;, str]];</span>
+<span class="f1">        } else {</span>
+<span class="f1">            ret = [ret stringByAppendingString:str];</span>
+<span class="f1">        }</span>
+<span class="f1">    }</span>
+<span class="f1">    return ret;</span>
+<span class="f1">}</span>
+
+<span class="f1">+ (CGSize)sizeForMMTextWithExtData:(NSArray*)extData</span>
+<span class="f1">                              font:(UIFont *)font</span>
+<span class="f1">                  maximumTextWidth:(CGFloat)maximumTextWidth {</span>
+<span class="f1">    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];</span>
+<span class="f1">    for (NSArray *obj in extData) {</span>
+<span class="f1">        NSString *str = obj[0];</span>
+<span class="f1">        EmojiType type = [obj[1] intValue];</span>
+<span class="f1">        switch (type) {</span>
+<span class="f1">            case EmojiTypeInvalid:</span>
+<span class="f1">            {</span>
+<span class="f1">                [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str]];</span>
+<span class="f1">            }</span>
+<span class="f1">                break;</span>
+<span class="f1">                </span>
+<span class="f1">            case EmojiTypeSmall:</span>
+<span class="f1">            {</span>
+<span class="f1">                NSTextAttachment *placeholderAttachment = [[NSTextAttachment alloc] init];</span>
+<span class="f1">                placeholderAttachment.bounds = CGRectMake(0, 0, 20, 20);//fixed size: 20X20</span>
+<span class="f1">                [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:placeholderAttachment]];</span>
+<span class="f1">            }</span>
+<span class="f1">                break;</span>
+<span class="f1">                </span>
+<span class="f1">            case EmojiTypeBig:</span>
+<span class="f1">            {</span>
+<span class="f1">                NSTextAttachment *placeholderAttachment = [[NSTextAttachment alloc] init];</span>
+<span class="f1">                placeholderAttachment.bounds = CGRectMake(0, 0, 60, 60);//fixed size: 60X60</span>
+<span class="f1">                [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:placeholderAttachment]];</span>
+<span class="f1">            }</span>
+<span class="f1">                break;</span>
+<span class="f1">                </span>
+<span class="f1">            default:</span>
+<span class="f1">                break;</span>
+<span class="f1">        }</span>
+<span class="f1">    }</span>
+<span class="f1">    </span>
+<span class="f1">    if (font) {</span>
+<span class="f1">        [attrStr addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, attrStr.length)];</span>
+<span class="f1">    }</span>
+<span class="f1">    </span>
+<span class="f1">    CGSize sizeToFit = [attrStr boundingRectWithSize:CGSizeMake(maximumTextWidth, MAXFLOAT)</span>
+<span class="f1">                                             options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading</span>
+<span class="f1">                                             context:nil].size;</span>
+<span class="f1">    </span>
+<span class="f1">    return CGRectIntegral(CGRectMake(0, 0, sizeToFit.width + 10, sizeToFit.height + 16)).size;</span>
+<span class="f1">}</span>
+
+<span class="f1">+ (CGSize)sizeForTextWithText:(NSString *)text</span>
+<span class="f1">                         font:(UIFont *)font</span>
+<span class="f1">             maximumTextWidth:(CGFloat)maximumTextWidth {</span>
+<span class="f1">    CGSize size = CGSizeZero;</span>
+<span class="f1">    size = [text boundingRectWithSize:CGSizeMake(maximumTextWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;</span>
+<span class="f1">    size.width += 10;</span>
+<span class="f1">    size.height += 16;</span>
+<span class="f1">    </span>
+<span class="f1">    return size;</span>
+<span class="f1">}</span>
+
+<span class="f1">@end</span>
+<span class="bold">diff --git a/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser.h b/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser.h</span>
+<span class="bold">new file mode 100644</span>
+<span class="bold">index 0000000..443ae77</span>
+<span class="bold">--- /dev/null</span>
+<span class="bold">+++ b/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser.h</span>
+<span class="f6">@@ -0,0 +1,77 @@</span>
+<span class="f2">//</span>
+<span class="f2">//  MMTextParser.h</span>
+<span class="f2">//  BQMM SDK</span>
+<span class="f2">//</span>
+<span class="f2">//  Created by ceo on 12/28/15.</span>
+<span class="f2">//  Copyright © 2015 siyanhui. All rights reserved.</span>
+<span class="f2">//</span>
+
+<span class="f2">#import &lt;Foundation/Foundation.h&gt;</span>
+<span class="f2">#import &lt;BQMM/BQMM.h&gt;</span>
+<span class="f2">typedef enum</span>
+<span class="f2">{</span>
+<span class="f2">    EmojiTypeInvalid = 0,</span>
+<span class="f2">    EmojiTypeSmall,</span>
+<span class="f2">    EmojiTypeBig</span>
+<span class="f2">} EmojiType;</span>
+
+<span class="f2">@interface MMTextParser : NSObject</span>
+
+<span class="f2">/**</span>
+<span class="f2"> *  convert textImageArray to extData</span>
+<span class="f2"> *</span>
+<span class="f2"> *  @param textImageArray    a collection of MMEmoji and text</span>
+<span class="f2"> *</span>
+<span class="f2"> *  @return extData          a two dimentional array e.g. @[@[@&quot;emojiCode&quot;, @1], @[@&quot;text&quot;, @0]]</span>
+<span class="f2"> */</span>
+<span class="f2">+ (nonnull NSArray*)extDataWithTextImageArray:(nonnull NSArray* )textImageArray;</span>
+
+<span class="f2">+ (nonnull NSArray * )extDataWithEmoji:(nonnull MMEmoji *)emoji;</span>
+
+<span class="f2">/**</span>
+<span class="f2"> *  convert extData to mmtext</span>
+<span class="f2"> *</span>
+<span class="f2"> *  @param extData           a two dimentional array e.g. @[@[@&quot;emojiCode&quot;, @1], @[@&quot;text&quot;, @0]]</span>
+<span class="f2"> *</span>
+<span class="f2"> *  @return mmtext</span>
+<span class="f2"> */</span>
+<span class="f2">+ (nonnull NSString*)stringWithExtData:(nonnull NSArray*)extData;</span>
+
+<span class="f2">/**</span>
+<span class="f2"> *  compute the size of MMTextView, `extData` is MMTextView's content</span>
+<span class="f2"> *</span>
+<span class="f2"> *  @param extData           a two dimentional array e.g. @[@[@&quot;emojiCode&quot;, @1], @[@&quot;text&quot;, @0]]</span>
+<span class="f2"> *  @param font              the font of MMTextView</span>
+<span class="f2"> *  @param maximumTextWidth  the max width set to MMTextView</span>
+<span class="f2"> *</span>
+<span class="f2"> *  @return the size of content in MMTextView</span>
+<span class="f2"> */</span>
+<span class="f2">+ (CGSize)sizeForMMTextWithExtData:(nonnull NSArray*)extData</span>
+<span class="f2">                              font:(nonnull UIFont *)font</span>
+<span class="f2">                  maximumTextWidth:(CGFloat)maximumTextWidth;</span>
+
+<span class="f2">/**</span>
+<span class="f2"> *  compute the size of MMTextView, `text` is MMTextView's content</span>
+<span class="f2"> *</span>
+<span class="f2"> *  @param extData           a two dimentional array e.g. @[@[@&quot;emojiCode&quot;, @1], @[@&quot;text&quot;, @0]]</span>
+<span class="f2"> *  @param font              the font of MMTextView</span>
+<span class="f2"> *  @param maximumTextWidth  the max width set to MMTextView</span>
+<span class="f2"> *</span>
+<span class="f2"> *  @return the size of content in MMTextView</span>
+<span class="f2"> */</span>
+<span class="f2">+ (CGSize)sizeForTextWithText:(nonnull NSString *)text</span>
+<span class="f2">                         font:(nonnull UIFont *)font</span>
+<span class="f2">             maximumTextWidth:(CGFloat)maximumTextWidth;</span>
+
+
+
+<span class="f2">/**</span>
+<span class="f2"> *  check the emoji to find out emoji type</span>
+<span class="f2"> *</span>
+<span class="f2"> *  @param emoji        emoji</span>
+<span class="f2"> *</span>
+<span class="f2"> *  @return             EmojiType</span>
+<span class="f2"> */</span>
+<span class="f2">+ (EmojiType)emojiTypeWithEmoji:(nullable MMEmoji *)emoji;</span>
+
+<span class="f2">@end</span>
+<span class="bold">diff --git a/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser.m b/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser.m</span>
+<span class="bold">new file mode 100644</span>
+<span class="bold">index 0000000..64cfd28</span>
+<span class="bold">--- /dev/null</span>
+<span class="bold">+++ b/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextParser.m</span>
+<span class="f6">@@ -0,0 +1,113 @@</span>
+<span class="f2">//</span>
+<span class="f2">//  MMTextParser.m</span>
+<span class="f2">//  StampMeSDK</span>
+<span class="f2">//</span>
+<span class="f2">//  Created by ceo on 12/28/15.</span>
+<span class="f2">//  Copyright © 2015 siyanhui. All rights reserved.</span>
+<span class="f2">//</span>
+
+<span class="f2">#import &quot;MMTextParser.h&quot;</span>
+
+<span class="f2">@implementation MMTextParser</span>
+
+<span class="f2">+ (NSArray*)extDataWithTextImageArray:(NSArray*)textImageArray {</span>
+<span class="f2">    NSMutableArray *ret = [NSMutableArray array];</span>
+<span class="f2">    </span>
+<span class="f2">    for (id obj in textImageArray) {</span>
+<span class="f2">        if ([obj isKindOfClass:[MMEmoji class]]) {</span>
+<span class="f2">            MMEmoji *emoji = (MMEmoji*)obj;</span>
+<span class="f2">            [ret addObject:@[emoji.emojiCode, [NSString stringWithFormat:@&quot;%d&quot;, [MMTextParser emojiTypeWithEmoji:emoji]]]];</span>
+<span class="f2">        } else if ([obj isKindOfClass:[NSString class]]) {</span>
+<span class="f2">            [ret addObject:@[obj, [NSString stringWithFormat:@&quot;%d&quot;, EmojiTypeInvalid]]];</span>
+<span class="f2">        } else {</span>
+<span class="f2">            assert(0);</span>
+<span class="f2">        }</span>
+<span class="f2">    }</span>
+<span class="f2">    </span>
+<span class="f2">    return ret;</span>
+<span class="f2">}</span>
+
+<span class="f2">+ (NSArray *)extDataWithEmoji:(MMEmoji *)emoji {</span>
+<span class="f2">    return @[@[emoji.emojiCode, [NSString stringWithFormat:@&quot;%d&quot;, [MMTextParser emojiTypeWithEmoji:emoji]]]];</span>
+<span class="f2">}</span>
+
+<span class="f2">+ (NSString*)stringWithExtData:(NSArray*)extData {</span>
+<span class="f2">    NSString *ret = @&quot;&quot;;</span>
+<span class="f2">    for (NSArray *obj in extData) {</span>
+<span class="f2">        NSString *str = obj[0];</span>
+<span class="f2">        BOOL isEmojiCode = [obj[1] boolValue];</span>
+<span class="f2">        if (isEmojiCode) {</span>
+<span class="f2">            ret = [ret stringByAppendingString:[NSString stringWithFormat:@&quot;[%@]&quot;, str]];</span>
+<span class="f2">        } else {</span>
+<span class="f2">            ret = [ret stringByAppendingString:str];</span>
+<span class="f2">        }</span>
+<span class="f2">    }</span>
+<span class="f2">    return ret;</span>
+<span class="f2">}</span>
+
+<span class="f2">+ (CGSize)sizeForMMTextWithExtData:(NSArray*)extData</span>
+<span class="f2">                              font:(UIFont *)font</span>
+<span class="f2">                  maximumTextWidth:(CGFloat)maximumTextWidth {</span>
+<span class="f2">    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];</span>
+<span class="f2">    for (NSArray *obj in extData) {</span>
+<span class="f2">        NSString *str = obj[0];</span>
+<span class="f2">        EmojiType type = [obj[1] intValue];</span>
+<span class="f2">        switch (type) {</span>
+<span class="f2">            case EmojiTypeInvalid:</span>
+<span class="f2">            {</span>
+<span class="f2">                [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:str]];</span>
+<span class="f2">            }</span>
+<span class="f2">                break;</span>
+<span class="f2">                </span>
+<span class="f2">            case EmojiTypeSmall:</span>
+<span class="f2">            {</span>
+<span class="f2">                NSTextAttachment *placeholderAttachment = [[NSTextAttachment alloc] init];</span>
+<span class="f2">                placeholderAttachment.bounds = CGRectMake(0, 0, 20, 20);//fixed size: 20X20</span>
+<span class="f2">                [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:placeholderAttachment]];</span>
+<span class="f2">            }</span>
+<span class="f2">                break;</span>
+<span class="f2">                </span>
+<span class="f2">            case EmojiTypeBig:</span>
+<span class="f2">            {</span>
+<span class="f2">                NSTextAttachment *placeholderAttachment = [[NSTextAttachment alloc] init];</span>
+<span class="f2">                placeholderAttachment.bounds = CGRectMake(0, 0, 60, 60);//fixed size: 60X60</span>
+<span class="f2">                [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:placeholderAttachment]];</span>
+<span class="f2">            }</span>
+<span class="f2">                break;</span>
+<span class="f2">                </span>
+<span class="f2">            default:</span>
+<span class="f2">                break;</span>
+<span class="f2">        }</span>
+<span class="f2">    }</span>
+<span class="f2">    </span>
+<span class="f2">    if (font) {</span>
+<span class="f2">        [attrStr addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, attrStr.length)];</span>
+<span class="f2">    }</span>
+<span class="f2">    </span>
+<span class="f2">    CGSize sizeToFit = [attrStr boundingRectWithSize:CGSizeMake(maximumTextWidth, MAXFLOAT)</span>
+<span class="f2">                                             options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading</span>
+<span class="f2">                                             context:nil].size;</span>
+<span class="f2">    </span>
+<span class="f2">    return CGRectIntegral(CGRectMake(0, 0, sizeToFit.width + 10, sizeToFit.height + 16)).size;</span>
+<span class="f2">}</span>
+
+<span class="f2">+ (CGSize)sizeForTextWithText:(NSString *)text</span>
+<span class="f2">                         font:(UIFont *)font</span>
+<span class="f2">             maximumTextWidth:(CGFloat)maximumTextWidth {</span>
+<span class="f2">    CGSize size = CGSizeZero;</span>
+<span class="f2">    size = [text boundingRectWithSize:CGSizeMake(maximumTextWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size;</span>
+<span class="f2">    size.width += 10;</span>
+<span class="f2">    size.height += 16;</span>
+<span class="f2">    </span>
+<span class="f2">    return size;</span>
+<span class="f2">}</span>
+
+<span class="f2">+ (EmojiType)emojiTypeWithEmoji:(MMEmoji*)emoji {</span>
+<span class="f2">    if(emoji.isEmoji) {</span>
+<span class="f2">        return EmojiTypeSmall;</span>
+<span class="f2">    }else{</span>
+<span class="f2">        return EmojiTypeBig;</span>
+<span class="f2">    }</span>
+<span class="f2">}</span>
+
+<span class="f2">@end</span>
+<span class="bold">diff --git a/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextView.m b/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextView.m</span>
+<span class="bold">index 2530fa1..b50bdae 100644</span>
+<span class="bold">--- a/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextView.m</span>
+<span class="bold">+++ b/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/BQMM_SDK/BQMM_EXT/MMTextView.m</span>
+<span class="f6">@@ -8,7 +8,7 @@</span>
+#include &lt;CoreText/CoreText.h&gt;
+#import &quot;MMTextView.h&quot;
+#import &lt;BQMM/BQMM.h&gt;
+#import &quot;MMTextParser<span class="f1">+ExtData</span>.h&quot;
+#import &quot;MMTextAttachment.h&quot;
+
+@interface MMDataDetector : NSDataDetector
+<span class="f6">@@ -33,6 +33,7 @@</span> @interface MMTextView () {
+@property (nonatomic, strong) NSMutableArray *attachmentRanges;
+@property (nonatomic, strong) NSMutableArray *attachments;
+@property (nonatomic, strong) NSMutableArray *imageViews;
+<span class="f2">@property (nonatomic, assign) NSInteger task;</span>
+
+@end
+
+<span class="f6">@@ -42,6 +43,7 @@</span> - (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        _disableActionMenu = NO;
+        <span class="f2">_task = 0;</span>
+    }
+    return self;
+}
+<span class="f6">@@ -108,39 +110,201 @@</span> - (void)setPlaceholderTextWithData:(NSArray*)extData {
+    self.attributedText = mAStr;
+}
+
+<span class="f2">- (void)setText:(NSString *)text {</span>
+<span class="f2">    [self clearImageViewsCover];</span>
+<span class="f2">    self.task++;</span>
+<span class="f2">    [super setText:text];</span>
+<span class="f2">}</span>
+
+<span class="f2">//- (void)setMmText:(NSString *)mmText {//这个不需要吧</span>
+<span class="f2">//    self.task++;</span>
+<span class="f2">//    self.text = mmText;</span>
+<span class="f2">//</span>
+<span class="f2">//}</span>
+
+- (void)setMmTextData:(NSArray *)extData {
+    <span class="f2">self.task++;</span>
+    [self setMmTextData:extData completionHandler:nil];
+}
+
+- (void)setMmTextData:(NSArray*)extData completionHandler:(void(^)(void))completionHandler {
+    [self setPlaceholderTextWithData:extData];
+    <span class="f1">[</span><span class="f2">__weak MMTextView* weakSelf =</span> self<span class="f1">updateAttributeTextWithData:extData completionHandler:completionHandler]</span>;
+    [self clearImageViewsCover];
+    [self <span class="f2">updateAttributeTextWithData:extData completionHandler:^{</span>
+<span class="f2">        [weakSelf</span>.attributedText enumerateAttribute:NSAttachmentAttributeName
+                                        inRange:NSMakeRange(0, [self.attributedText length])
+                                        options:0
+                                     usingBlock:^(id value, NSRange range, BOOL * stop) {<span class="f1">if ([value isKindOfClass:[MMTextAttachment class]]) {</span>
+                                         if ([value isKindOfClass:[MMTextAttachment class]]) {
+                                             MMTextAttachment *attachment = (MMTextAttachment *)value;
+                                             [<span class="f1">self</span><span class="f2">weakSelf</span>.attachmentRanges addObject:[NSValue valueWithRange:range]];
+                                             [<span class="f1">self</span><span class="f2">weakSelf</span>.attachments addObject:value];
+                                             UIImageView *imgView = [[UIImageView alloc] initWithImage:attachment.emoji.emojiImage];
+                                             attachment.image = nil;
+                                             [<span class="f1">self</span><span class="f2">weakSelf</span>.imageViews addObject:imgView];
+                                         }
+                                     }<span class="f2">];</span>
+<span class="f2">        [weakSelf setNeedsLayout];</span>
+
+<span class="f2">        if (completionHandler) {</span>
+<span class="f2">            completionHandler();</span>
+<span class="f2">        }</span>
+<span class="f2">    }];</span>
+<span class="f2">}</span>
+
+<span class="f2">#pragma mark - private</span>
+
+<span class="f2">- (void)updateAttributeTextWithData:(NSArray*)extData completionHandler:(void(^)(void))completionHandler {</span>
+<span class="f2">    NSMutableArray *codes = [NSMutableArray array];</span>
+<span class="f2">    __block NSMutableArray *textImgArray = [NSMutableArray array];</span>
+<span class="f2">    for (NSArray *obj in extData) {</span>
+<span class="f2">        NSString *str = obj[0];</span>
+<span class="f2">        BOOL isEmoji = [obj[1] integerValue] == 0 ? NO : YES;</span>
+<span class="f2">        if (isEmoji) {</span>
+<span class="f2">            if (![codes containsObject:str]) {</span>
+<span class="f2">                [codes addObject:str];</span>
+<span class="f2">            }</span>
+<span class="f2">        }</span>
+<span class="f2">        [textImgArray addObject:str];</span>
+<span class="f2">    }</span>
+
+<span class="f2">    __block NSInteger task = _task;</span>
+<span class="f2">    __weak MMTextView *weakSelf = self;</span>
+<span class="f2">    [[MMEmotionCentre defaultCentre] fetchEmojisByType:MMFetchTypeAll codes:codes completionHandler:^(NSArray *emojis) {</span>
+<span class="f2">        __strong MMTextView *tempSelf = weakSelf;</span>
+<span class="f2">        if (!weakSelf) {</span>
+<span class="f2">            return;</span>
+<span class="f2">        }</span>
+<span class="f2">        if (task != tempSelf.task) {</span>
+<span class="f2">            return;</span>
+<span class="f2">        }</span>
+
+<span class="f2">        NSMutableAttributedString *mAStr = [[NSMutableAttributedString alloc] init];</span>
+<span class="f2">        for (MMEmoji *emoji in emojis) {</span>
+<span class="f2">            NSInteger objIndex = [textImgArray indexOfObject:emoji.emojiCode];</span>
+<span class="f2">            while (objIndex != NSNotFound) {</span>
+<span class="f2">                [textImgArray replaceObjectAtIndex:objIndex withObject:emoji];</span>
+<span class="f2">                objIndex = [textImgArray indexOfObject:emoji.emojiCode];</span>
+<span class="f2">            }</span>
+        }
+        <span class="f2">for (id obj in textImgArray) {</span>
+<span class="f2">            if ([obj isKindOfClass:[MMEmoji class]]) {</span>
+<span class="f2">                MMTextAttachment *attachment = [[MMTextAttachment alloc] init</span>];
+                <span class="f2">attachment.emoji = obj;</span>
+<span class="f2">                if ([attachment.image.images count] &gt; 1) {</span>
+<span class="f2">                    attachment.image = [attachment placeHolderImage];</span>
+<span class="f2">                }</span>
+<span class="f2">                [mAStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];</span>
+<span class="f2">            } else {</span>
+<span class="f2">                [mAStr appendAttributedString:[[NSAttributedString alloc] initWithString:obj]];</span>
+<span class="f2">            }</span>
+<span class="f2">        }</span>
+<span class="f2">        if (weakSelf.mmFont) {</span>
+<span class="f2">            [mAStr addAttribute:NSFontAttributeName value:weakSelf.mmFont range:NSMakeRange(0, mAStr.length)];</span>
+<span class="f2">        }</span>
+<span class="f2">        if (weakSelf.mmTextColor) {</span>
+<span class="f2">            [mAStr addAttribute:NSForegroundColorAttributeName value:weakSelf.mmTextColor range:NSMakeRange(0, mAStr.length)];</span>
+<span class="f2">        }</span>
+<span class="f2">        weakSelf.attributedText = mAStr;</span>
+<span class="f2">        //search the content of MMtextView for URL and Phone number and set `link attribute` on them</span>
+<span class="f2">        [weakSelf setURLAttributes];</span>
+<span class="f2">        if (completionHandler) {</span>
+<span class="f2">            completionHandler();</span>
+<span class="f2">        }</span>
+<span class="f2">    }];</span>
+<span class="f2">}</span>
+
+<span class="f2">- (NSMutableArray *)attachments {</span>
+<span class="f2">    if (_attachments == nil) {</span>
+<span class="f2">        _attachments = [[NSMutableArray alloc] init];</span>
+<span class="f2">    }</span>
+<span class="f2">    return _attachments;</span>
+<span class="f2">}</span>
+
+<span class="f2">- (NSMutableArray *)attachmentRanges {</span>
+<span class="f2">    if (_attachmentRanges == nil) {</span>
+<span class="f2">        _attachmentRanges = [[NSMutableArray alloc] init];</span>
+<span class="f2">    }</span>
+<span class="f2">    return _attachmentRanges;</span>
+<span class="f2">}</span>
+
+<span class="f2">- (NSMutableArray *)imageViews {</span>
+<span class="f2">    if (_imageViews == nil) {</span>
+<span class="f2">        _imageViews = [[NSMutableArray alloc] init];</span>
+<span class="f2">    }</span>
+<span class="f2">    return _imageViews;</span>
+}
+
+<span class="f2">- (void)clearImageViewsCover {</span>
+<span class="f2">    [self.attachmentRanges removeAllObjects];</span>
+<span class="f2">    [self.attachments removeAllObjects];</span>
+<span class="f2">    </span>
+<span class="f2">    for (UIImageView *imgView in self.imageViews) {</span>
+<span class="f2">        [imgView removeFromSuperview];</span>
+<span class="f2">    }</span>
+<span class="f2">    [self.imageViews removeAllObjects];</span>
+<span class="f2">}</span>
+
+<span class="f2">- (UIImage *)placeHolderImage {</span>
+<span class="f2">    static UIImage *holderImage = nil;</span>
+<span class="f2">    if (holderImage == nil) {</span>
+<span class="f2">        UIGraphicsBeginImageContextWithOptions(CGSizeMake(1, 1), NO, 0);</span>
+<span class="f2">        CGContextRef context = UIGraphicsGetCurrentContext();</span>
+<span class="f2">        CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:0.8 alpha:1].CGColor);</span>
+<span class="f2">        CGContextFillRect(context, CGRectMake(0, 0, 1, 1));</span>
+<span class="f2">        holderImage = UIGraphicsGetImageFromCurrentImageContext();</span>
+<span class="f2">        UIGraphicsEndImageContext();</span>
+<span class="f2">    }</span>
+<span class="f2">    return holderImage;</span>
+<span class="f2">}</span>
+
+
+<span class="f2">#pragma mark - Layout</span>
+
+<span class="f2">- (void)layoutAttachments {</span>
+<span class="f2">    NSInteger attachmentCount = [self.attachments count];</span>
+<span class="f2">    for (NSInteger i = 0; i &lt; attachmentCount; i++) {</span>
+<span class="f2">        NSRange range = [self.attachmentRanges[i] rangeValue];</span>
+<span class="f2">        MMTextAttachment *attachment = self.attachments[i];</span>
+<span class="f2">        UIImageView *imgView = self.imageViews[i];</span>
+
+<span class="f2">        NSRange glyphRange = [self.layoutManager glyphRangeForCharacterRange:range actualCharacterRange:nil];</span>
+<span class="f2">        CGRect rect = [self.layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:self.textContainer];</span>
+<span class="f2">        rect.origin.x += self.textContainerInset.left;</span>
+<span class="f2">        rect.origin.y += self.textContainerInset.top;</span>
+
+<span class="f2">        CGFloat originalY = CGRectGetMaxY(rect) - attachment.bounds.size.height;</span>
+<span class="f2">        if(attachment.bounds.size.width == 20) {</span>
+<span class="f2">            CGFloat lineHeight = self.mmFont.lineHeight;</span>
+<span class="f2">            originalY = CGRectGetMaxY(rect) - lineHeight</span> / <span class="f1">****************************</span><span class="f2">2 - attachment.bounds.size.height / 2;</span>
+<span class="f2">        }</span>
+<span class="f2">        imgView.frame = CGRectMake(rect.origin.x, originalY, attachment.bounds.size.width, attachment.bounds.size.height);</span>
+<span class="f2">        if ([imgView superview] == nil) {</span>
+<span class="f2">            [self addSubview:imgView];</span>
+<span class="f2">        }</span>
+<span class="f2">    }</span>
+<span class="f2">}</span>
+
+<span class="f2">- (void)layoutSubviews {</span>
+<span class="f2">    [super layoutSubviews];</span>
+<span class="f2">    [self layoutAttachments];</span>
+<span class="f2">}</span>
+
+<span class="f2">- (void)copy:(id)sender {</span>
+<span class="f2">    [UIPasteboard generalPasteboard].string = [self mmTextWithRange:self.selectedRange];</span>
+<span class="f2">}</span>
+
+<span class="f2">#pragma mark -</span> about url and phone number<span class="f1">*******************************/</span>
+
+- (void)setURLAttributes {
+    //search the content of MMtextView for URL and Phone number and set `link attribute` on them
+    NSError *error = nil;
+    MMDataDetector *dataDetector = [[MMDataDetector alloc] initWithTypes:NSTextCheckingTypeLink | NSTextCheckingTypePhoneNumber error:&amp;error];
+    _urlMatches = [dataDetector matchesInString:self.attributedText.string
+                                        options:0
+                                          range:NSMakeRange(0, self.attributedText.string.length)];
+
+    NSMutableAttributedString * attributedString = [self.attributedText mutableCopy];
+    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:0];
+<span class="f6">@@ -148,7 +312,7 @@</span> - (void)setURLAttributes {
+                             value:paragraphStyle
+                             range:NSMakeRange(0, self.attributedText.string.length)];
+    [self setAttributedText:attributedString];
+
+    [self highlightLinksWithIndex:NSNotFound];
+    //add tap gesture
+    self.userInteractionEnabled = true;
+<span class="f6">@@ -158,31 +322,31 @@</span> - (void)setURLAttributes {
+}
+
+- (void)highlightLinksWithIndex:(CFIndex)index {
+<span class="f1">    </span>
+    NSMutableAttributedString* attributedString = [self.attributedText mutableCopy];
+    <span class="f2">if (self.textColor) {</span>
+        [attributedString addAttribute:NSForegroundColorAttributeName
+                                 value:self.textColor
+                                 range:NSMakeRange(0, attributedString.string.length)];
+    <span class="f2">}</span>
+    for (NSTextCheckingResult *match in _urlMatches) {
+<span class="f1">        </span>
+        if ([match resultType] == NSTextCheckingTypeLink || [match resultType] == NSTextCheckingTypePhoneNumber) {
+<span class="f1">            </span>
+            NSRange matchRange = [match range];
+<span class="f1">            </span>
+            if ([self isIndex:index inRange:matchRange]) {
+                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor] range:matchRange];
+            }
+            else {
+                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:matchRange];
+            }
+            [attributedString addAttribute:NSUnderlineStyleAttributeName
+                                     value:[NSNumber numberWithInteger:NSUnderlineStyleSingle]
+                                     range:matchRange];
+        }
+    }
+
+    self.attributedText = attributedString;
+}
+
+- (BOOL)isIndex:(CFIndex)index inRange:(NSRange)range {
+    return index &gt; range.location &amp;&amp; index &lt; range.location+range.length;
+}
+
+<span class="f6">@@ -194,10 +358,9 @@</span> - (void)handleTap:(UITapGestureRecognizer *)gestureRecognizer {
+    if (!result) {
+        return;
+    }
+
+    switch (result.resultType) {
+        case NSTextCheckingTypeLink:
+<span class="f1">            NSLog(@&quot;link&quot;);</span>
+            if ([self.clickActionDelegate respondsToSelector:@selector(mmTextView:didSelectLinkWithURL:)]) {
+                [self.clickActionDelegate mmTextView:self didSelectLinkWithURL:result.URL];
+            }
+<span class="f6">@@ -206,7 +369,6 @@</span> - (void)handleTap:(UITapGestureRecognizer *)gestureRecognizer {
+            if ([self.clickActionDelegate respondsToSelector:@selector(mmTextView:didSelectLinkWithPhoneNumber:)]) {
+                [self.clickActionDelegate mmTextView:self didSelectLinkWithPhoneNumber:result.phoneNumber];
+            }
+<span class="f1">            NSLog(@&quot;tele&quot;);</span>
+            break;
+        default:
+            break;
+<span class="f6">@@ -225,118 +387,102 @@</span> - (NSTextCheckingResult *)linkAtCharacterIndex:(CFIndex)idx {
+            return result;
+        }
+    }
+<span class="f1">    </span>
+    return nil;
+}
+
+- (CFIndex)characterIndexAtPoint:(CGPoint)point {
+<span class="f1">    </span>
+    NSMutableAttributedString *optimizedAttributedText = [self.attributedText mutableCopy];
+<span class="f1">    </span>
+    // use label's font and lineBreakMode properties in case the attributedText does not contain such attributes
+    [self.attributedText enumerateAttributesInRange:NSMakeRange(0, [self.attributedText length])
+                                            options:0
+                                         usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
+                                             if (!attrs[(NSString *)kCTFontAttributeName]) {
+
+                                                 [optimizedAttributedText addAttribute:(NSString *)kCTFontAttributeName
+                                                                                 value:self.font
+                                                                                 range:NSMakeRange(0, [self.attributedText length])];
+                                             }
+                                         }];
+
+    // modify kCTLineBreakByTruncatingTail lineBreakMode to kCTLineBreakByWordWrapping
+    [optimizedAttributedText enumerateAttribute:(NSString *)kCTParagraphStyleAttributeName
+                                        inRange:NSMakeRange(0, [optimizedAttributedText length])
+                                        options:0
+                                     usingBlock:^(id value, NSRange range, BOOL *stop) {
+                                         NSMutableParagraphStyle *paragraphStyle = [value mutableCopy];
+
+                                         if ([paragraphStyle lineBreakMode] == kCTLineBreakByTruncatingTail) {
+                                             [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+                                         }
+
+                                         [optimizedAttributedText removeAttribute:(NSString *)kCTParagraphStyleAttributeName range:range];
+                                         [optimizedAttributedText addAttribute:(NSString *)kCTParagraphStyleAttributeName
+                                                                         value:paragraphStyle
+                                                                         range:range];
+                                     }];<span class="f1">////////</span>
+
+    if (!CGRectContainsPoint(self.bounds, point)) {
+        return NSNotFound;
+    }
+
+    CGRect textRect = [self frame];
+<span class="f1">    </span>
+    if (!CGRectContainsPoint(textRect, point)) {
+        return NSNotFound;
+    }
+
+    // Offset tap coordinates by textRect origin to make them relative to the origin of frame
+    point = CGPointMake(point.x - textRect.origin.x, point.y - textRect.origin.y);
+    // Convert tap coordinates (start at top left) to CT coordinates (start at bottom left)
+    point = CGPointMake(point.x, textRect.size.height - point.y);
+
+    //////
+
+    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)optimizedAttributedText);
+
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, textRect);
+
+    CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, [self.attributedText length]), path, NULL);
+
+    if (frame == NULL) {
+        CFRelease(path);
+        <span class="f2">CFRelease(framesetter);</span>
+        return NSNotFound;
+    }
+
+    CFArrayRef lines = CTFrameGetLines(frame);
+<span class="f1">    </span>
+    NSInteger numberOfLines = CFArrayGetCount(lines);
+<span class="f1">    </span>
+<span class="f1">    // DebugLog(@&quot;num lines: %d&quot;, numberOfLines);</span>
+<span class="f1">    </span>
+    if (numberOfLines == 0) {
+        CFRelease(frame);
+        CFRelease(path);
+        <span class="f2">CFRelease(framesetter);</span>
+        return NSNotFound;
+    }
+
+    NSUInteger idx = NSNotFound;
+<span class="f1">    </span>
+    CGPoint lineOrigins[numberOfLines];
+
+    CTFrameGetLineOrigins(frame, CFRangeMake(0, numberOfLines), lineOrigins);
+<span class="f1">    </span>
+    for (CFIndex lineIndex = 0; lineIndex &lt; numberOfLines; lineIndex++) {
+<span class="f1">        </span>
+        CGPoint lineOrigin = lineOrigins[lineIndex];
+        CTLineRef line = CFArrayGetValueAtIndex(lines, lineIndex);
+
+        // Get bounding information of line
+        CGFloat ascent, descent, leading, width;
+        width = CTLineGetTypographicBounds(line, &amp;ascent, &amp;descent, &amp;leading);
+        CGFloat yMin = floor(lineOrigin.y - descent);
+        CGFloat yMax = ceil(lineOrigin.y + ascent);
+
+        // Check if we've already passed the line
+        if (point.y &gt; yMax) {
+            break;
+        }
+
+        // Check if the point is within this line vertically
+        if (point.y &gt;= yMin) {
+<span class="f1">            </span>
+            // Check if the point is within this line horizontally
+            if (point.x &gt;= lineOrigin.x &amp;&amp; point.x &lt;= lineOrigin.x + width) {
+
+                // Convert CT coordinates to line-relative coordinates
+                CGPoint relativePoint = CGPointMake(point.x - lineOrigin.x, point.y - lineOrigin.y);
+                idx = CTLineGetStringIndexForPosition(line, relativePoint);
+<span class="f6">@@ -345,144 +491,11 @@</span> - (CFIndex)characterIndexAtPoint:(CGPoint)point {
+            }
+        }
+    }
+<span class="f1">    </span>
+    CFRelease(frame);
+    CFRelease(path);
+    <span class="f2">CFRelease(framesetter);</span>
+    return idx;
+}
+<span class="f1">/****************************about url and phone number*******************************/</span>
+
+<span class="f1">- (void)updateAttributeTextWithData:(NSArray*)extData completionHandler:(void(^)(void))completionHandler {</span>
+<span class="f1">    NSMutableArray *codes = [NSMutableArray array];</span>
+<span class="f1">    __block NSMutableArray *textImgArray = [NSMutableArray array];</span>
+<span class="f1">    for (NSArray *obj in extData) {</span>
+<span class="f1">        NSString *str = obj[0];</span>
+<span class="f1">        BOOL isEmoji = [obj[1] integerValue] == 0 ? NO : YES;</span>
+<span class="f1">        if (isEmoji) {</span>
+<span class="f1">            if (![codes containsObject:str]) {</span>
+<span class="f1">                [codes addObject:str];</span>
+<span class="f1">            }</span>
+<span class="f1">        }</span>
+<span class="f1">        [textImgArray addObject:str];</span>
+<span class="f1">    }</span>
+<span class="f1">    </span>
+<span class="f1">    //</span>
+<span class="f1">    [[MMEmotionCentre defaultCentre] fetchEmojisByType:MMFetchTypeAll codes:codes completionHandler:^(NSArray *emojis) {</span>
+<span class="f1">        NSMutableAttributedString *mAStr = [[NSMutableAttributedString alloc] init];</span>
+<span class="f1">        for (MMEmoji *emoji in emojis) {</span>
+<span class="f1">            NSInteger objIndex = [textImgArray indexOfObject:emoji.emojiCode];</span>
+<span class="f1">            while (objIndex != NSNotFound) {</span>
+<span class="f1">                [textImgArray replaceObjectAtIndex:objIndex withObject:emoji];</span>
+<span class="f1">                objIndex = [textImgArray indexOfObject:emoji.emojiCode];</span>
+<span class="f1">            }</span>
+<span class="f1">        }</span>
+<span class="f1">        for (id obj in textImgArray) {</span>
+<span class="f1">            if ([obj isKindOfClass:[MMEmoji class]]) {</span>
+<span class="f1">                MMTextAttachment *attachment = [[MMTextAttachment alloc] init];</span>
+<span class="f1">                attachment.emoji = obj;</span>
+<span class="f1">                if ([attachment.image.images count] &gt; 1) {</span>
+<span class="f1">                    attachment.image = [attachment placeHolderImage];</span>
+<span class="f1">                }</span>
+<span class="f1">                [mAStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];</span>
+<span class="f1">            } else {</span>
+<span class="f1">                [mAStr appendAttributedString:[[NSAttributedString alloc] initWithString:obj]];</span>
+<span class="f1">            }</span>
+<span class="f1">        }</span>
+<span class="f1">        if (self.mmFont) {</span>
+<span class="f1">            [mAStr addAttribute:NSFontAttributeName value:self.mmFont range:NSMakeRange(0, mAStr.length)];</span>
+<span class="f1">        }</span>
+<span class="f1">        if (self.mmTextColor) {</span>
+<span class="f1">            [mAStr addAttribute:NSForegroundColorAttributeName value:self.mmTextColor range:NSMakeRange(0, mAStr.length)];</span>
+<span class="f1">        }</span>
+<span class="f1">        self.attributedText = mAStr;</span>
+<span class="f1">        if (completionHandler) {</span>
+<span class="f1">            completionHandler();</span>
+<span class="f1">        }</span>
+<span class="f1">    }];</span>
+<span class="f1">}</span>
+
+<span class="f1">- (NSMutableArray *)attachments {</span>
+<span class="f1">    if (_attachments == nil) {</span>
+<span class="f1">        _attachments = [[NSMutableArray alloc] init];</span>
+<span class="f1">    }</span>
+<span class="f1">    return _attachments;</span>
+<span class="f1">}</span>
+
+<span class="f1">- (NSMutableArray *)attachmentRanges {</span>
+<span class="f1">    if (_attachmentRanges == nil) {</span>
+<span class="f1">        _attachmentRanges = [[NSMutableArray alloc] init];</span>
+<span class="f1">    }</span>
+<span class="f1">    return _attachmentRanges;</span>
+<span class="f1">}</span>
+
+<span class="f1">- (NSMutableArray *)imageViews {</span>
+<span class="f1">    if (_imageViews == nil) {</span>
+<span class="f1">        _imageViews = [[NSMutableArray alloc] init];</span>
+<span class="f1">    }</span>
+<span class="f1">    return _imageViews;</span>
+<span class="f1">}</span>
+
+<span class="f1">#pragma mark - private</span>
+
+<span class="f1">- (void)clearImageViewsCover {</span>
+<span class="f1">    [self.attachmentRanges removeAllObjects];</span>
+<span class="f1">    [self.attachments removeAllObjects];</span>
+<span class="f1">    </span>
+<span class="f1">    for (UIImageView *imgView in self.imageViews) {</span>
+<span class="f1">        [imgView removeFromSuperview];</span>
+<span class="f1">    }</span>
+<span class="f1">    [self.imageViews removeAllObjects];</span>
+<span class="f1">}</span>
+
+<span class="f1">- (UIImage *)placeHolderImage {</span>
+<span class="f1">    static UIImage *holderImage = nil;</span>
+<span class="f1">    if (holderImage == nil) {</span>
+<span class="f1">        UIGraphicsBeginImageContextWithOptions(CGSizeMake(1, 1), NO, 0);</span>
+<span class="f1">        CGContextRef context = UIGraphicsGetCurrentContext();</span>
+<span class="f1">        CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:0.8 alpha:1].CGColor);</span>
+<span class="f1">        CGContextFillRect(context, CGRectMake(0, 0, 1, 1));</span>
+<span class="f1">        holderImage = UIGraphicsGetImageFromCurrentImageContext();</span>
+<span class="f1">        UIGraphicsEndImageContext();</span>
+<span class="f1">    }</span>
+<span class="f1">    return holderImage;</span>
+<span class="f1">}</span>
+
+
+<span class="f1">#pragma mark - Layout</span>
+
+<span class="f1">- (void)layoutAttachments {</span>
+<span class="f1">    NSInteger attachmentCount = [self.attachments count];</span>
+<span class="f1">    for (NSInteger i = 0; i &lt; attachmentCount; i++) {</span>
+<span class="f1">        NSRange range = [self.attachmentRanges[i] rangeValue];</span>
+<span class="f1">        MMTextAttachment *attachment = self.attachments[i];</span>
+<span class="f1">        UIImageView *imgView = self.imageViews[i];</span>
+
+<span class="f1">        NSRange glyphRange = [self.layoutManager glyphRangeForCharacterRange:range actualCharacterRange:nil];</span>
+<span class="f1">        CGRect rect = [self.layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:self.textContainer];</span>
+<span class="f1">        rect.origin.x += self.textContainerInset.left;</span>
+<span class="f1">        rect.origin.y += self.textContainerInset.top;</span>
+
+<span class="f1">        CGFloat originalY = CGRectGetMaxY(rect) - attachment.bounds.size.height;</span>
+<span class="f1">        if(attachment.bounds.size.width == 20) {</span>
+<span class="f1">            CGFloat lineHeight = self.mmFont.lineHeight;</span>
+<span class="f1">            originalY = CGRectGetMaxY(rect) - lineHeight / 2 - attachment.bounds.size.height / 2;</span>
+<span class="f1">        }</span>
+<span class="f1">        imgView.frame = CGRectMake(rect.origin.x, originalY, attachment.bounds.size.width, attachment.bounds.size.height);</span>
+<span class="f1">        if ([imgView superview] == nil) {</span>
+<span class="f1">            [self addSubview:imgView];</span>
+<span class="f1">        }</span>
+<span class="f1">    }</span>
+<span class="f1">}</span>
+
+<span class="f1">- (void)layoutSubviews {</span>
+<span class="f1">    [super layoutSubviews];</span>
+<span class="f1">    [self layoutAttachments];</span>
+<span class="f1">}</span>
+
+<span class="f1">- (void)copy:(id)sender {</span>
+<span class="f1">    [UIPasteboard generalPasteboard].string = [self mmTextWithRange:self.selectedRange];</span>
+<span class="f1">}</span>
+
+
+@end
 <span class="bold">diff --git a/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/GrowingTextView/HPGrowingTextView.h b/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/GrowingTextView/HPGrowingTextView.h</span>
 <span class="bold">index e689a11..8818390 100755</span>
 <span class="bold">--- a/ECSDKDemo_OC/ECSDKDemo_OC/thirdparty/GrowingTextView/HPGrowingTextView.h</span>
