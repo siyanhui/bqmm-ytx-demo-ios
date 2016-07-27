@@ -10,7 +10,7 @@
 
 //BQMM集成
 #import "MMTextView.h"
-#import "MMTextParser+ExtData.h"
+#import "MMTextParser.h"
 
 
 NSString *const KResponderCustomChatViewTextCellBubbleViewEvent = @"KResponderCustomChatViewTextCellBubbleViewEvent";
@@ -290,7 +290,7 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @"KResponde
     }else{
         contentSize = [MMTextParser sizeForTextWithText:body.text font:LabelFont maximumTextWidth:BubbleMaxSize.width];
         
-        _textView.mmText = body.text;
+//        _textView.mmText = body.text;   TODO 
     }
     
     if (contentSize.height<40.0f) {

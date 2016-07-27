@@ -58,7 +58,7 @@
 #import <ShareSDK/ShareSDK.h>
 
 //BQMM集成
-#import "MMTextParser+ExtData.h"
+#import "MMTextParser.h"
 
 
 #define ToolbarInputViewHeight 43.0f
@@ -2254,63 +2254,46 @@ const char KMenuViewKey;
     
     NSMutableCharacterSet *set = [NSMutableCharacterSet whitespaceCharacterSet];
     [set removeCharactersInString:_deleteAtStr];
-    NSString * textString = [_inputTextView.internalTextView.mmText stringByTrimmingCharactersInSet:set];
-    if (textString.length == 0) {
+    NSString *sendStr = _inputTextView.internalTextView.characterMMText;
+    NSArray *textImgArray = _inputTextView.internalTextView.textImgArray;
+    NSDictionary *mmExt = @{@"txt_msgType":@"emojitype",
+                            @"msg_data":[MMTextParser extDataWithTextImageArray:textImgArray]};;
+    if (sendStr.length == 0) {
         UIAlertView * alert = [[UIAlertView alloc]initWithTitle:nil message:@"不能发送空白消息" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
         return;
     }
     
-    [MMTextParser localParseMMText:textString completionHandler:^(NSArray *textImgArray) {
-        NSDictionary *mmExt = nil;
-        NSString *sendStr = @"";
-        for (id obj in textImgArray) {
-            if ([obj isKindOfClass:[MMEmoji class]]) {
-                MMEmoji *emoji = (MMEmoji*)obj;
-                if (!mmExt) {
-                    mmExt = @{@"txt_msgType":@"emojitype",
-                              @"msg_data":[MMTextParser extDataWithTextImageArray:textImgArray]};
-                    
-                }
-                sendStr = [sendStr stringByAppendingString:[NSString stringWithFormat:@"[%@]", emoji.emojiName]];
-            }
-            else if ([obj isKindOfClass:[NSString class]]) {
-                sendStr = [sendStr stringByAppendingString:obj];
-            }
-        }
-        
-        NSString *extString = nil;
-        if (mmExt) {
-            NSError *parseError = nil;
-            NSData  *extData = [NSJSONSerialization dataWithJSONObject:mmExt
-                                                               options:NSJSONWritingPrettyPrinted error:&parseError];
-            extString = [[NSString alloc] initWithData:extData encoding:NSUTF8StringEncoding];
-            extString = [extString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        }
-        
-        ECMessage* message;
-        if ([self.sessionId hasPrefix:@"g"] && [sendStr myContainsString:_deleteAtStr]) {
-            NSMutableArray *personArray = [DemoGlobalClass sharedInstance].AtPersonArray;
-            NSArray *array = [sendStr componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"@%@",_deleteAtStr]]];
-            for (NSString *str in array) {
-                NSArray *bookArray = [DemoGlobalClass sharedInstance].groupMemberArray;
-                for (AddressBook *book in bookArray) {
-                    if ([str isEqualToString:book.name]) {
-                        [personArray addObject:book.phones.allValues.firstObject];
-                        NSSet *set = [NSSet setWithArray:personArray];
-                        personArray = [NSMutableArray arrayWithObject:set.allObjects];
-                    }
+
+    NSString *extString = nil;
+    if (mmExt) {
+        NSError *parseError = nil;
+        NSData  *extData = [NSJSONSerialization dataWithJSONObject:mmExt
+                                                           options:NSJSONWritingPrettyPrinted error:&parseError];
+        extString = [[NSString alloc] initWithData:extData encoding:NSUTF8StringEncoding];
+        extString = [extString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
+    
+    ECMessage* message;
+    if ([self.sessionId hasPrefix:@"g"] && [sendStr myContainsString:_deleteAtStr]) {
+        NSMutableArray *personArray = [DemoGlobalClass sharedInstance].AtPersonArray;
+        NSArray *array = [sendStr componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"@%@",_deleteAtStr]]];
+        for (NSString *str in array) {
+            NSArray *bookArray = [DemoGlobalClass sharedInstance].groupMemberArray;
+            for (AddressBook *book in bookArray) {
+                if ([str isEqualToString:book.name]) {
+                    [personArray addObject:book.phones.allValues.firstObject];
+                    NSSet *set = [NSSet setWithArray:personArray];
+                    personArray = [NSMutableArray arrayWithObject:set.allObjects];
                 }
             }
-            message = [[DeviceChatHelper sharedInstance] sendTextMessage:sendStr to:self.sessionId withUserData:extString atArray:personArray];
-        } else {
-            message = [[DeviceChatHelper sharedInstance] sendTextMessage:sendStr to:self.sessionId withUserData:extString atArray:nil];
         }
-        [[DemoGlobalClass sharedInstance].AtPersonArray removeAllObjects];
-        [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:message];
-    }];
-    
-    
+        message = [[DeviceChatHelper sharedInstance] sendTextMessage:sendStr to:self.sessionId withUserData:extString atArray:personArray];
+    } else {
+        message = [[DeviceChatHelper sharedInstance] sendTextMessage:sendStr to:self.sessionId withUserData:extString atArray:nil];
+    }
+    [[DemoGlobalClass sharedInstance].AtPersonArray removeAllObjects];
+    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:message];
 }
 
 /**
@@ -2318,7 +2301,7 @@ const char KMenuViewKey;
  */
 -(void)sendMMFace:(MMEmoji *)emoji {
     NSDictionary *mmExt = @{@"txt_msgType":@"facetype",
-                            @"msg_data":[MMTextParser extDataWithEmojiCode:emoji.emojiCode]};
+                            @"msg_data":@[@[emoji.emojiCode, [NSString stringWithFormat:@"%d", emoji.isEmoji ? 1 : 2]]]};
     NSString *extString = nil;
     if (mmExt) {
         NSError *parseError = nil;
@@ -2788,11 +2771,7 @@ const char KMenuViewKey;
 
 //BQMM集成
 - (void)growingTextViewDidChange:(HPGrowingTextView *)growingTextView {
-    if (growingTextView.internalTextView.markedTextRange == nil) {
-        NSRange selectedRange = growingTextView.internalTextView.selectedRange;
-        growingTextView.internalTextView.mmText = growingTextView.internalTextView.mmText;
-        growingTextView.internalTextView.selectedRange = selectedRange;
-    }
+    
 //    [self willShowInputTextViewToHeight:[self getTextViewContentH:textView]];
 
 }
