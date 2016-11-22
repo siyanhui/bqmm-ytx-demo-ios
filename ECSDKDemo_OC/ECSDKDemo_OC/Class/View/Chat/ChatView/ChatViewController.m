@@ -1887,10 +1887,10 @@ const char KMenuViewKey;
                 
             case ToolbarDisplay_Emoji:
             {
-                [_inputTextView becomeFirstResponder];
                 framey = viewHeight-_containerView.frame.size.height-93.0f-ToolbarInputViewHeight;
                 _inputTextView.selectedRange = NSMakeRange(_inputTextView.text.length,0);
                 [[MMEmotionCentre defaultCentre] attachEmotionKeyboardToInput:_inputTextView.internalTextView];
+                [_inputTextView becomeFirstResponder];
                 [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon"] forState:UIControlStateNormal];
                 [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon_on"] forState:UIControlStateHighlighted];
                 [_emojiBtn setImage:[UIImage imageNamed:@"keyboard_icon"] forState:UIControlStateNormal];
