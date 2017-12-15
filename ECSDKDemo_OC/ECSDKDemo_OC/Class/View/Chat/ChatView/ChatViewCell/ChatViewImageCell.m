@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import "UIImage+MultiFormat.h"
 #import "NSString+containsString.h"
+#import "UIImageView+WebCache.h"
 
 //BQMM集成
 #import <BQMM/BQMM.h>
@@ -76,6 +77,30 @@ NSString *const KResponderCustomChatViewImageCellBubbleViewEvent = @"KResponderC
 }
 
 +(CGFloat)getHightOfCellViewWith:(ECMessageBody *)message{
+    return 150.0f;
+}
+
++(CGFloat)getHightOfCellViewWithMessage:(ECMessage *)message {
+    NSString *extString = message.userData;
+    NSDictionary *extDic = nil;
+    if (extString != nil) {
+        NSData *extData = [extString dataUsingEncoding:NSUTF8StringEncoding];
+        extDic = [NSJSONSerialization JSONObjectWithData:extData options:NSJSONReadingMutableLeaves error:nil];
+    }
+    if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"webtype"]) {
+        NSDictionary *msgData = extDic[TEXT_MESG_DATA];
+        float height = [msgData[WEBSTICKER_HEIGHT] floatValue];
+        float width = [msgData[WEBSTICKER_WIDTH] floatValue];
+        //宽最大200 高最大 150
+        if (width > 200) {
+            height = 200.0 / width * height;
+            width = 200;
+        }else if(height > 150) {
+            width = 150.0 / height * width;
+            height = 150;
+        }
+        return height;
+    }
     return 150.0f;
 }
 
@@ -146,6 +171,32 @@ NSString *const KResponderCustomChatViewImageCellBubbleViewEvent = @"KResponderC
                 _displayImage.image = [UIImage imageNamed:@"mm_emoji_error"];
             }
         }];
+        return;
+    }else if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"webtype"]) { //gif消息
+        _displayImage.image = [UIImage imageNamed:@"mm_emoji_loading"];
+        NSDictionary *msgData = extDic[@"msg_data"];
+        NSString *webStickerUrl = msgData[WEBSTICKER_URL];
+        NSURL *url = [[NSURL alloc] initWithString:webStickerUrl];
+        if (url != nil) {
+            __weak typeof(self) weakSelf = self;
+            [_displayImage sd_setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                if(error == nil) {
+                    if (image.images.count > 0) {
+                        _displayImage.animationImages = image.images;
+                        _displayImage.image = image.images[0];
+                        _displayImage.animationDuration = image.duration;
+                    }else{
+                        _displayImage.image = image;
+                    }
+                }else{
+                    _displayImage.image = [UIImage imageNamed:@"mm_emoji_error"];
+                }
+                
+            }];
+            
+        }else{
+            _displayImage.image = [UIImage imageNamed:@"mm_emoji_error"];
+        }
         return;
     }
     

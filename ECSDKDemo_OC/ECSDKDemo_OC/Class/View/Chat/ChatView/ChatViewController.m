@@ -59,6 +59,7 @@
 
 //BQMM集成
 #import "MMTextParser.h"
+#import "MMGifManager.h"
 
 
 #define ToolbarInputViewHeight 43.0f
@@ -274,8 +275,13 @@ const char KMenuViewKey;
     _deleteAtStr = [NSString stringWithCString:myBuffer encoding:NSUTF8StringEncoding];
 
     //BQMM集成
-    [[MMEmotionCentre defaultCentre] shouldShowShotcutPopoverAboveView:_emojiBtn withInput:_inputTextView.internalTextView];
+    //BQMM集成   设置gif搜索相关
 
+    [[MMGifManager defaultManager] setSearchModeEnabled:true withInputView:_inputTextView.internalTextView];
+    [[MMGifManager defaultManager] setSearchUiVisible:true withAttatchedView:_inputTextView];
+    [MMGifManager defaultManager].selectedHandler = ^(MMGif * _Nullable gif) {
+        [self didSendGifMessage:gif];
+    };
 }
 
 -(NSString*)getDeviceWithType:(ECDeviceType)type{
@@ -763,6 +769,8 @@ const char KMenuViewKey;
             }
             if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"facetype"]) { //大表情消息
                 height = 150.0f;
+            }else if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"webtype"]) { //gif消息
+                height = [ChatViewImageCell getHightOfCellViewWithMessage:message];
             }else{
                 height = [ChatViewTextCell getHightOfCellViewWithMessage:message];
             }
@@ -842,6 +850,13 @@ const char KMenuViewKey;
     return height+(isShow?30.0f:0.0f)+addHeight;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [self tableView:tableView heightForRowAtIndexPath:indexPath];
+}
+
+
+
+
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.messageArray.count;
@@ -899,6 +914,8 @@ const char KMenuViewKey;
             case MessageBodyType_Text:   //BQMM集成
             {
                 if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"facetype"]) { //大表情消息
+                    cell = [[ChatViewImageCell alloc] initWithIsSender:isSender reuseIdentifier:cellidentifier];
+                }else if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"webtype"]) { //gif消息
                     cell = [[ChatViewImageCell alloc] initWithIsSender:isSender reuseIdentifier:cellidentifier];
                 }else{
                     cell = [[ChatViewTextCell alloc] initWithIsSender:isSender reuseIdentifier:cellidentifier];
@@ -2867,6 +2884,33 @@ const char KMenuViewKey;
 
 //BQMM集成
 #pragma mark - MMEmotionCentreDelegate
+- (void)didClickGifTab {
+    //点击gif tab 后应该保证搜索模式是打开的 搜索UI是允许显示的
+    [[MMGifManager defaultManager] setSearchModeEnabled:true withInputView:_inputTextView.internalTextView];
+    [[MMGifManager defaultManager] setSearchUiVisible:true withAttatchedView:_inputTextView];
+    [[MMGifManager defaultManager] showTrending];
+}
+
+-(void)didSendGifMessage:(MMGif *)gif {
+    NSDictionary *msgData = @{WEBSTICKER_URL: gif.mainImage, WEBSTICKER_IS_GIF: (gif.isAnimated ? @"1" : @"0"), WEBSTICKER_ID: gif.imageId,WEBSTICKER_WIDTH: @((float)gif.size.width), WEBSTICKER_HEIGHT: @((float)gif.size.height)};
+    NSDictionary *extDic = @{TEXT_MESG_TYPE:TEXT_MESG_WEB_TYPE,
+                             TEXT_MESG_DATA:msgData
+                             };
+    NSString *extString = nil;
+    if (extDic) {
+        NSError *parseError = nil;
+        NSData  *extData = [NSJSONSerialization dataWithJSONObject:extDic
+                                                           options:NSJSONWritingPrettyPrinted error:&parseError];
+        extString = [[NSString alloc] initWithData:extData encoding:NSUTF8StringEncoding];
+        extString = [extString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
+    NSString *sendStr = [@"[" stringByAppendingFormat:@"%@]", gif.text];
+    ECMessage* message;
+    message = [[DeviceChatHelper sharedInstance] sendTextMessage:sendStr to:self.sessionId withUserData:extString atArray:nil];
+    [[DemoGlobalClass sharedInstance].AtPersonArray removeAllObjects];
+    [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:message];
+}
+
 - (void)didSelectEmoji:(MMEmoji *)emoji
 {
     [self sendMMFace:emoji];

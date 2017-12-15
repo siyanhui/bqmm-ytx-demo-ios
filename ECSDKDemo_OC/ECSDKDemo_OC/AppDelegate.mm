@@ -19,6 +19,7 @@
 //BQMM集成
 #import <BQMM/BQMM.h>
 
+#import <Bugly/Bugly.h>
 #define LOG_OPEN 0
 
 @interface AppDelegate ()
@@ -109,13 +110,16 @@
     }
     
     //BQMM集成  初始化BQMM
-    NSString *appId = @"yourAppID";
-    NSString *appSecret = @"yourSecret";
+    NSString *appId = @"a5a8ae16d6734c0190d3c7d73605ea11";
+    NSString *appSecret = @"54945f511d2d44a8985ee71b92b24afa";
     [[MMEmotionCentre defaultCentre] setAppId:appId secret:appSecret];
     
     [MMEmotionCentre defaultCentre].sdkMode = MMSDKModeIM;
     [MMEmotionCentre defaultCentre].sdkLanguage = MMLanguageChinese;
     [MMEmotionCentre defaultCentre].sdkRegion = MMRegionOther;
+    
+    //初始化bugly
+    [Bugly startWithAppId:@"d8a40c96a3"];
     
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.window.rootViewController = rootView;
