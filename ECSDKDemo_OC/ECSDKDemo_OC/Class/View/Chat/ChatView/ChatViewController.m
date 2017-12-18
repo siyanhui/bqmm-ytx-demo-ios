@@ -279,8 +279,12 @@ const char KMenuViewKey;
 
     [[MMGifManager defaultManager] setSearchModeEnabled:true withInputView:_inputTextView.internalTextView];
     [[MMGifManager defaultManager] setSearchUiVisible:true withAttatchedView:_inputTextView];
+    __weak typeof(self) weakSelf = self;
     [MMGifManager defaultManager].selectedHandler = ^(MMGif * _Nullable gif) {
-        [self didSendGifMessage:gif];
+        __strong typeof(weakSelf) tempSelf = weakSelf;
+        if (tempSelf) {
+            [tempSelf didSendGifMessage:gif];
+        }
     };
 }
 
@@ -2885,6 +2889,11 @@ const char KMenuViewKey;
 //BQMM集成
 #pragma mark - MMEmotionCentreDelegate
 - (void)didClickGifTab {
+    toolbarDisplay = ToolbarDisplay_None;
+    [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon"] forState:UIControlStateNormal];
+    [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon_on"] forState:UIControlStateHighlighted];
+    [_emojiBtn setImage:[UIImage imageNamed:@"facial_expression_icon"] forState:UIControlStateNormal];
+    [_emojiBtn setImage:[UIImage imageNamed:@"facial_expression_icon_on"] forState:UIControlStateHighlighted];
     //点击gif tab 后应该保证搜索模式是打开的 搜索UI是允许显示的
     [[MMGifManager defaultManager] setSearchModeEnabled:true withInputView:_inputTextView.internalTextView];
     [[MMGifManager defaultManager] setSearchUiVisible:true withAttatchedView:_inputTextView];
@@ -2930,6 +2939,7 @@ const char KMenuViewKey;
 
 - (void)tapOverlay
 {
+    toolbarDisplay = ToolbarDisplay_None;
     [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon"] forState:UIControlStateNormal];
     [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon_on"] forState:UIControlStateHighlighted];
     [_emojiBtn setImage:[UIImage imageNamed:@"facial_expression_icon"] forState:UIControlStateNormal];
