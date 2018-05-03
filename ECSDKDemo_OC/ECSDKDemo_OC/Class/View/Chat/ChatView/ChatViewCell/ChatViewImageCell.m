@@ -24,7 +24,7 @@
 NSString *const KResponderCustomChatViewImageCellBubbleViewEvent = @"KResponderCustomChatViewImageCellBubbleViewEvent";
 
 @implementation ChatViewImageCell{
-    UIImageView* _displayImage;
+    MMImageView* _displayImage;
     UIImageView* _gifFlagImage;
     BOOL isAllowClickReadDeleteMessage;
 }
@@ -32,7 +32,7 @@ NSString *const KResponderCustomChatViewImageCellBubbleViewEvent = @"KResponderC
 -(instancetype) initWithIsSender:(BOOL)isSender reuseIdentifier:(NSString *)reuseIdentifier{
     if (self = [super initWithIsSender:isSender reuseIdentifier:reuseIdentifier]) {
         
-        _displayImage = [[UIImageView alloc] init];
+        _displayImage = [[MMImageView alloc] init];
         _displayImage.contentMode = UIViewContentModeScaleAspectFill;
         _displayImage.clipsToBounds = YES;
         
@@ -95,32 +95,47 @@ NSString *const KResponderCustomChatViewImageCellBubbleViewEvent = @"KResponderC
         if (width > 200) {
             height = 200.0 / width * height;
             width = 200;
-        }else if(height > 150) {
+        }
+        
+        if(height > 150) {
             width = 150.0 / height * width;
             height = 150;
         }
-        return height;
+        return height + 30;
     }
     return 150.0f;
 }
 
--(void)getImageWithwidth:(CGFloat)width andgetImageWithhight:(CGFloat)hight {
+-(void)getImageWithwidth:(CGFloat)width andgetImageWithhight:(CGFloat)height {
     
-    CGFloat newWidth = 120*width/hight;
-    if (newWidth > 200) {
-        newWidth = 200;
-    } else if (newWidth < 70) {
-        newWidth = 70;
+    
+    if (width > 200) {
+        height = 200.0 / width * height;
+        width = 200;
     }
+    
+    if(height > 150) {
+        width = 150.0 / height * width;
+        height = 150;
+    }
+    
+    
+    
+//    CGFloat newWidth = 120*width/hight;
+//    if (newWidth > 200) {
+//        newWidth = 200;
+//    } else if (newWidth < 70) {
+//        newWidth = 70;
+//    }
     if (self.isSender) {
-        _displayImage.frame = CGRectMake(5, 5, newWidth, 120.0f);
-        self.bubbleView.frame = CGRectMake(self.portraitImg.frame.origin.x-newWidth-30, self.portraitImg.frame.origin.y, newWidth+20, 130.0f);
+        _displayImage.frame = CGRectMake(5, 5, width, height);
+        self.bubbleView.frame = CGRectMake(self.portraitImg.frame.origin.x-width-30, self.portraitImg.frame.origin.y, width+20, height+10);
         
     } else {
-        _displayImage.frame = CGRectMake(15, 5, newWidth, 120.0f);
+        _displayImage.frame = CGRectMake(15, 5, width, height);
         
         CGFloat imageFrameY = self.portraitImg.frame.origin.y;
-        self.bubbleView.frame = CGRectMake(self.portraitImg.frame.origin.x+10.0f+self.portraitImg.frame.size.width, imageFrameY, newWidth+20, 130.0f);
+        self.bubbleView.frame = CGRectMake(self.portraitImg.frame.origin.x+10.0f+self.portraitImg.frame.size.width, imageFrameY, width+20, height+10);
     }
     
     ECMessage *message = self.displayMessage;
@@ -138,11 +153,12 @@ NSString *const KResponderCustomChatViewImageCellBubbleViewEvent = @"KResponderC
 -(void)layoutSubviews {
     
     [super layoutSubviews];
-    
-    ECMessage *message = self.displayMessage;
+
+}
+
+- (void)setdata:(ECMessage *)message {
+//    ECMessage *message = self.displayMessage;
     ECImageMessageBody *mediaBody = (ECImageMessageBody*)message.messageBody;
-    
-    
     
     //解析消息扩展
     NSString *extString = message.userData;
@@ -155,48 +171,33 @@ NSString *const KResponderCustomChatViewImageCellBubbleViewEvent = @"KResponderC
         self.bubleimg.hidden = YES;
         [self getImageWithwidth:120 andgetImageWithhight:120];
         _displayImage.image = [UIImage imageNamed:@"mm_emoji_loading"];
-        NSArray *codes = nil;
-        if (extDic[@"msg_data"]) {
-            codes = @[extDic[@"msg_data"][0][0]];
+        
+        NSString *emojiCode = nil;
+        if (extDic[TEXT_MESG_DATA]) {
+            emojiCode = extDic[TEXT_MESG_DATA][0][0];
         }
-        __weak typeof(self) weakself = self;
-        [[MMEmotionCentre defaultCentre] fetchEmojisByType:MMFetchTypeBig codes:codes completionHandler:^(NSArray *emojis) {
-            if (emojis.count > 0) {
-                MMEmoji *emoji = emojis[0];
-                if ([codes[0] isEqualToString:emoji.emojiCode]) {
-                    _displayImage.image = emoji.emojiImage; //TODO
-                }
-            }
-            else {
-                _displayImage.image = [UIImage imageNamed:@"mm_emoji_error"];
-            }
-        }];
+        
+        if (emojiCode != nil && emojiCode.length > 0) {
+            _displayImage.errorImage = [UIImage imageNamed:@"mm_emoji_error"];
+            _displayImage.image = [UIImage imageNamed:@"mm_emoji_loading"];
+            [_displayImage setImageWithEmojiCode:emojiCode];
+        }else {
+            _displayImage.image = [UIImage imageNamed:@"mm_emoji_error"];
+        }
         return;
     }else if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"webtype"]) { //gif消息
         _displayImage.image = [UIImage imageNamed:@"mm_emoji_loading"];
+        _displayImage.errorImage = [UIImage imageNamed:@"mm_emoji_error"];
         NSDictionary *msgData = extDic[@"msg_data"];
         NSString *webStickerUrl = msgData[WEBSTICKER_URL];
-        NSURL *url = [[NSURL alloc] initWithString:webStickerUrl];
-        if (url != nil) {
-            __weak typeof(self) weakSelf = self;
-            [_displayImage sd_setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                if(error == nil) {
-                    if (image.images.count > 0) {
-                        _displayImage.animationImages = image.images;
-                        _displayImage.image = image.images[0];
-                        _displayImage.animationDuration = image.duration;
-                    }else{
-                        _displayImage.image = image;
-                    }
-                }else{
-                    _displayImage.image = [UIImage imageNamed:@"mm_emoji_error"];
-                }
-                
-            }];
-            
-        }else{
-            _displayImage.image = [UIImage imageNamed:@"mm_emoji_error"];
-        }
+        NSString *webStickerId = msgData[WEBSTICKER_ID];
+        
+        
+        float height = [msgData[WEBSTICKER_HEIGHT] floatValue];
+        float width = [msgData[WEBSTICKER_WIDTH] floatValue];
+        [self getImageWithwidth:width andgetImageWithhight:height];
+        
+        [_displayImage setImageWithUrl:webStickerUrl gifId:webStickerId];
         return;
     }
     
@@ -229,12 +230,12 @@ NSString *const KResponderCustomChatViewImageCellBubbleViewEvent = @"KResponderC
             });
         } else if (message.messageState == ECMessageState_Receive && mediaBody.thumbnailRemotePath.length>0) {
             
-            [_displayImage sd_setImageWithURL:[NSURL URLWithString:mediaBody.thumbnailRemotePath] placeholderImage:defaultimg completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                if (image==nil) {
-                    return;
-                }
-                [weakSelf getImageWithwidth:image.size.width andgetImageWithhight:image.size.height];
-            }];
+//            [_displayImage sd_setImageWithURL:[NSURL URLWithString:mediaBody.thumbnailRemotePath] placeholderImage:defaultimg completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                if (image==nil) {
+//                    return;
+//                }
+//                [weakSelf getImageWithwidth:image.size.width andgetImageWithhight:image.size.height];
+//            }];
             
         } else if ([message.userData myContainsString:@"fireMessage"]) {
             
@@ -243,6 +244,12 @@ NSString *const KResponderCustomChatViewImageCellBubbleViewEvent = @"KResponderC
     }
     
     [self getImageWithwidth:defaultimg.size.width andgetImageWithhight:defaultimg.size.height];
+}
 
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    _displayImage.image = nil;
+    _displayImage.errorImage = nil;
+    [self getImageWithwidth:120 andgetImageWithhight:120];
 }
 @end

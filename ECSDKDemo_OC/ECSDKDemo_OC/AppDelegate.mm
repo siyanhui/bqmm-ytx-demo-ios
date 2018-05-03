@@ -110,13 +110,22 @@
     }
     
     //BQMM集成  初始化BQMM
-    NSString *appId = @"a5a8ae16d6734c0190d3c7d73605ea11";
-    NSString *appSecret = @"54945f511d2d44a8985ee71b92b24afa";
+    NSString *appId = @"app id";
+    NSString *appSecret = @"app secret";
     [[MMEmotionCentre defaultCentre] setAppId:appId secret:appSecret];
     
     [MMEmotionCentre defaultCentre].sdkMode = MMSDKModeIM;
     [MMEmotionCentre defaultCentre].sdkLanguage = MMLanguageChinese;
     [MMEmotionCentre defaultCentre].sdkRegion = MMRegionOther;
+    
+    
+    MMTheme *theme = [[MMTheme alloc] init];
+    CGFloat keyboardHeight = 216;
+    if ([[UIScreen mainScreen] bounds].size.height == 812) {
+        keyboardHeight = 250;
+    }
+    theme.keyboardHeight = keyboardHeight;
+    [[MMEmotionCentre defaultCentre] setTheme:theme];
     
     //初始化bugly
     [Bugly startWithAppId:@"d8a40c96a3"];
@@ -252,6 +261,8 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    //BQMM集成
+    [[MMEmotionCentre defaultCentre] clearCache];
 }
 
 -(BOOL)getLoginInfo {

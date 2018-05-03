@@ -284,7 +284,7 @@ NSString *const KResponderCustomChatViewTextLnkCellBubbleViewEvent = @"KResponde
         extDic = [NSJSONSerialization JSONObjectWithData:extData options:NSJSONReadingMutableLeaves error:nil];
     }
     CGSize contentSize = CGSizeZero;
-    if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"emojitype"]) { //大表情消息
+    if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"emojitype"]) { //混排消息
         contentSize = [MMTextParser sizeForMMTextWithExtData:extDic[@"msg_data"] font:LabelFont maximumTextWidth:BubbleMaxSize.width];
         [_textView setMmTextData:extDic[@"msg_data"]];
     }else{

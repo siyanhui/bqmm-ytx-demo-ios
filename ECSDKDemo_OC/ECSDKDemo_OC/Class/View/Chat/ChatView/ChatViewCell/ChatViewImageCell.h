@@ -13,4 +13,5 @@ extern NSString *const KResponderCustomChatViewImageCellBubbleViewEvent;
 
 //BQMM集成
 +(CGFloat)getHightOfCellViewWithMessage:(ECMessage *)message;
+- (void)setdata:(ECMessage *)message;
 @end

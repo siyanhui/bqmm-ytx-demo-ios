@@ -274,9 +274,7 @@ const char KMenuViewKey;
     char myBuffer[4] = {'\xe2','\x80','\x85',0};
     _deleteAtStr = [NSString stringWithCString:myBuffer encoding:NSUTF8StringEncoding];
 
-    //BQMM集成
     //BQMM集成   设置gif搜索相关
-
     [[MMGifManager defaultManager] setSearchModeEnabled:true withInputView:_inputTextView.internalTextView];
     [[MMGifManager defaultManager] setSearchUiVisible:true withAttatchedView:_inputTextView];
     __weak typeof(self) weakSelf = self;
@@ -919,8 +917,10 @@ const char KMenuViewKey;
             {
                 if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"facetype"]) { //大表情消息
                     cell = [[ChatViewImageCell alloc] initWithIsSender:isSender reuseIdentifier:cellidentifier];
+                    [(ChatViewImageCell *)cell setdata:message];
                 }else if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"webtype"]) { //gif消息
                     cell = [[ChatViewImageCell alloc] initWithIsSender:isSender reuseIdentifier:cellidentifier];
+                    [(ChatViewImageCell *)cell setdata:message];
                 }else{
                     cell = [[ChatViewTextCell alloc] initWithIsSender:isSender reuseIdentifier:cellidentifier];
                 }
@@ -951,6 +951,14 @@ const char KMenuViewKey;
         
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(cellHandleLongPress:)];
         [cell.bubbleView addGestureRecognizer:longPress];
+    }else{
+        if (message.messageBody.messageBodyType == MessageBodyType_Text) {
+            if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"facetype"]) { //大表情消息
+                [(ChatViewImageCell *)cell setdata:message];
+            }else if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"webtype"]){
+                [(ChatViewImageCell *)cell setdata:message];
+            }
+        }
     }
     
     [cell bubbleViewWithData:[self.messageArray objectAtIndex:indexPath.row]];
@@ -1341,21 +1349,6 @@ const char KMenuViewKey;
 }
 
 -(void)imageCellBubbleViewTap:(ECMessage*)message{
-    //BQMM集成
-    //解析消息扩展
-    NSString *extString = message.userData;
-    NSDictionary *extDic = nil;
-    if (extString != nil) {
-        NSData *extData = [extString dataUsingEncoding:NSUTF8StringEncoding];
-        extDic = [NSJSONSerialization JSONObjectWithData:extData options:NSJSONReadingMutableLeaves error:nil];
-    }
-    if (extDic != nil && [extDic[@"txt_msgType"] isEqualToString: @"facetype"]) { //大表情消息
-        UIViewController *emojiController = [[MMEmotionCentre defaultCentre] controllerForEmotionCode:extDic[@"msg_data"][0][0]];
-        [self.navigationController pushViewController:emojiController animated:YES];
-        
-        return;
-    }
-    
     if (message.messageBody.messageBodyType >= MessageBodyType_Voice) {
         ECImageMessageBody *mediaBody = (ECImageMessageBody*)message.messageBody;
         
@@ -1886,6 +1879,7 @@ const char KMenuViewKey;
     if (toolbarDisplay == button.tag) {
         toolbarDisplay = ToolbarDisplay_None;
         [_inputTextView becomeFirstResponder];
+        //切换成系统键盘
         [[MMEmotionCentre defaultCentre] switchToDefaultKeyboard];
         [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon"] forState:UIControlStateNormal];
         [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon_on"] forState:UIControlStateHighlighted];
@@ -1910,6 +1904,7 @@ const char KMenuViewKey;
             {
                 framey = viewHeight-_containerView.frame.size.height-93.0f-ToolbarInputViewHeight;
                 _inputTextView.selectedRange = NSMakeRange(_inputTextView.text.length,0);
+                //切换成表情键盘
                 [[MMEmotionCentre defaultCentre] attachEmotionKeyboardToInput:_inputTextView.internalTextView];
                 [_inputTextView becomeFirstResponder];
                 [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon"] forState:UIControlStateNormal];
@@ -2888,18 +2883,6 @@ const char KMenuViewKey;
 
 //BQMM集成
 #pragma mark - MMEmotionCentreDelegate
-- (void)didClickGifTab {
-    toolbarDisplay = ToolbarDisplay_None;
-    [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon"] forState:UIControlStateNormal];
-    [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon_on"] forState:UIControlStateHighlighted];
-    [_emojiBtn setImage:[UIImage imageNamed:@"facial_expression_icon"] forState:UIControlStateNormal];
-    [_emojiBtn setImage:[UIImage imageNamed:@"facial_expression_icon_on"] forState:UIControlStateHighlighted];
-    //点击gif tab 后应该保证搜索模式是打开的 搜索UI是允许显示的
-    [[MMGifManager defaultManager] setSearchModeEnabled:true withInputView:_inputTextView.internalTextView];
-    [[MMGifManager defaultManager] setSearchUiVisible:true withAttatchedView:_inputTextView];
-    [[MMGifManager defaultManager] showTrending];
-}
-
 -(void)didSendGifMessage:(MMGif *)gif {
     NSDictionary *msgData = @{WEBSTICKER_URL: gif.mainImage, WEBSTICKER_IS_GIF: (gif.isAnimated ? @"1" : @"0"), WEBSTICKER_ID: gif.imageId,WEBSTICKER_WIDTH: @((float)gif.size.width), WEBSTICKER_HEIGHT: @((float)gif.size.height)};
     NSDictionary *extDic = @{TEXT_MESG_TYPE:TEXT_MESG_WEB_TYPE,
@@ -2920,23 +2903,27 @@ const char KMenuViewKey;
     [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_onMesssageChanged object:message];
 }
 
+//点击键盘中大表情的代理
 - (void)didSelectEmoji:(MMEmoji *)emoji
 {
     [self sendMMFace:emoji];
 }
 
+//点击联想表情的代理 （`deprecated`）
 - (void)didSelectTipEmoji:(MMEmoji *)emoji
 {
     [self sendMMFace:emoji];
     _inputTextView.text = @"";
 }
 
+//点击小表情键盘上发送按钮的代理
 - (void)didSendWithInput:(UIResponder<UITextInput> *)input
 {
     [self sendTextMessage];
     _inputTextView.text = @"";
 }
 
+//点击输入框切换表情按钮状态
 - (void)tapOverlay
 {
     toolbarDisplay = ToolbarDisplay_None;
@@ -2944,6 +2931,19 @@ const char KMenuViewKey;
     [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon_on"] forState:UIControlStateHighlighted];
     [_emojiBtn setImage:[UIImage imageNamed:@"facial_expression_icon"] forState:UIControlStateNormal];
     [_emojiBtn setImage:[UIImage imageNamed:@"facial_expression_icon_on"] forState:UIControlStateHighlighted];
+}
+
+//点击gifTab
+- (void)didClickGifTab {
+    toolbarDisplay = ToolbarDisplay_None;
+    [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon"] forState:UIControlStateNormal];
+    [_switchVoiceBtn setImage:[UIImage imageNamed:@"voice_icon_on"] forState:UIControlStateHighlighted];
+    [_emojiBtn setImage:[UIImage imageNamed:@"facial_expression_icon"] forState:UIControlStateNormal];
+    [_emojiBtn setImage:[UIImage imageNamed:@"facial_expression_icon_on"] forState:UIControlStateHighlighted];
+    //点击gif tab 后应该保证搜索模式是打开的 搜索UI是允许显示的
+    [[MMGifManager defaultManager] setSearchModeEnabled:true withInputView:_inputTextView.internalTextView];
+    [[MMGifManager defaultManager] setSearchUiVisible:true withAttatchedView:_inputTextView];
+    [[MMGifManager defaultManager] showTrending];
 }
 
 @end
